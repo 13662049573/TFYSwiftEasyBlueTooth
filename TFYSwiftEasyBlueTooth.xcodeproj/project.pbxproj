@@ -1,0 +1,607 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3682AE622851C7C800D30BB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE612851C7C800D30BB5 /* AppDelegate.swift */; };
+		3682AE642851C7C800D30BB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE632851C7C800D30BB5 /* SceneDelegate.swift */; };
+		3682AE662851C7C800D30BB5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE652851C7C800D30BB5 /* ViewController.swift */; };
+		3682AE692851C7C800D30BB5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3682AE672851C7C800D30BB5 /* Main.storyboard */; };
+		3682AE6B2851C7C900D30BB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3682AE6A2851C7C900D30BB5 /* Assets.xcassets */; };
+		3682AE6E2851C7C900D30BB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3682AE6C2851C7C900D30BB5 /* LaunchScreen.storyboard */; };
+		3682AE792851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE782851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.swift */; };
+		3682AE832851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE822851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests.swift */; };
+		3682AE852851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE842851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3682AE752851C7C900D30BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3682AE562851C7C800D30BB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3682AE5D2851C7C800D30BB5;
+			remoteInfo = TFYSwiftEasyBlueTooth;
+		};
+		3682AE7F2851C7CA00D30BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3682AE562851C7C800D30BB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3682AE5D2851C7C800D30BB5;
+			remoteInfo = TFYSwiftEasyBlueTooth;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3682AE5E2851C7C800D30BB5 /* TFYSwiftEasyBlueTooth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFYSwiftEasyBlueTooth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3682AE612851C7C800D30BB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3682AE632851C7C800D30BB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		3682AE652851C7C800D30BB5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3682AE682851C7C800D30BB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3682AE6A2851C7C900D30BB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3682AE6D2851C7C900D30BB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3682AE6F2851C7C900D30BB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3682AE742851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TFYSwiftEasyBlueToothTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3682AE782851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyBlueToothTests.swift; sourceTree = "<group>"; };
+		3682AE7E2851C7C900D30BB5 /* TFYSwiftEasyBlueToothUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TFYSwiftEasyBlueToothUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3682AE822851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyBlueToothUITests.swift; sourceTree = "<group>"; };
+		3682AE842851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyBlueToothUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3682AE5B2851C7C800D30BB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3682AE712851C7C900D30BB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3682AE7B2851C7C900D30BB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3682AE552851C7C800D30BB5 = {
+			isa = PBXGroup;
+			children = (
+				3682AE602851C7C800D30BB5 /* TFYSwiftEasyBlueTooth */,
+				3682AE772851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests */,
+				3682AE812851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests */,
+				3682AE5F2851C7C800D30BB5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3682AE5F2851C7C800D30BB5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3682AE5E2851C7C800D30BB5 /* TFYSwiftEasyBlueTooth.app */,
+				3682AE742851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.xctest */,
+				3682AE7E2851C7C900D30BB5 /* TFYSwiftEasyBlueToothUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3682AE602851C7C800D30BB5 /* TFYSwiftEasyBlueTooth */ = {
+			isa = PBXGroup;
+			children = (
+				3682AE612851C7C800D30BB5 /* AppDelegate.swift */,
+				3682AE632851C7C800D30BB5 /* SceneDelegate.swift */,
+				3682AE652851C7C800D30BB5 /* ViewController.swift */,
+				3682AE672851C7C800D30BB5 /* Main.storyboard */,
+				3682AE6A2851C7C900D30BB5 /* Assets.xcassets */,
+				3682AE6C2851C7C900D30BB5 /* LaunchScreen.storyboard */,
+				3682AE6F2851C7C900D30BB5 /* Info.plist */,
+			);
+			path = TFYSwiftEasyBlueTooth;
+			sourceTree = "<group>";
+		};
+		3682AE772851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests */ = {
+			isa = PBXGroup;
+			children = (
+				3682AE782851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.swift */,
+			);
+			path = TFYSwiftEasyBlueToothTests;
+			sourceTree = "<group>";
+		};
+		3682AE812851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3682AE822851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests.swift */,
+				3682AE842851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITestsLaunchTests.swift */,
+			);
+			path = TFYSwiftEasyBlueToothUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3682AE5D2851C7C800D30BB5 /* TFYSwiftEasyBlueTooth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3682AE882851C7CA00D30BB5 /* Build configuration list for PBXNativeTarget "TFYSwiftEasyBlueTooth" */;
+			buildPhases = (
+				3682AE5A2851C7C800D30BB5 /* Sources */,
+				3682AE5B2851C7C800D30BB5 /* Frameworks */,
+				3682AE5C2851C7C800D30BB5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TFYSwiftEasyBlueTooth;
+			productName = TFYSwiftEasyBlueTooth;
+			productReference = 3682AE5E2851C7C800D30BB5 /* TFYSwiftEasyBlueTooth.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3682AE732851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3682AE8B2851C7CA00D30BB5 /* Build configuration list for PBXNativeTarget "TFYSwiftEasyBlueToothTests" */;
+			buildPhases = (
+				3682AE702851C7C900D30BB5 /* Sources */,
+				3682AE712851C7C900D30BB5 /* Frameworks */,
+				3682AE722851C7C900D30BB5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3682AE762851C7C900D30BB5 /* PBXTargetDependency */,
+			);
+			name = TFYSwiftEasyBlueToothTests;
+			productName = TFYSwiftEasyBlueToothTests;
+			productReference = 3682AE742851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3682AE7D2851C7C900D30BB5 /* TFYSwiftEasyBlueToothUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3682AE8E2851C7CA00D30BB5 /* Build configuration list for PBXNativeTarget "TFYSwiftEasyBlueToothUITests" */;
+			buildPhases = (
+				3682AE7A2851C7C900D30BB5 /* Sources */,
+				3682AE7B2851C7C900D30BB5 /* Frameworks */,
+				3682AE7C2851C7C900D30BB5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3682AE802851C7CA00D30BB5 /* PBXTargetDependency */,
+			);
+			name = TFYSwiftEasyBlueToothUITests;
+			productName = TFYSwiftEasyBlueToothUITests;
+			productReference = 3682AE7E2851C7C900D30BB5 /* TFYSwiftEasyBlueToothUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3682AE562851C7C800D30BB5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 1340;
+				TargetAttributes = {
+					3682AE5D2851C7C800D30BB5 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					3682AE732851C7C900D30BB5 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 3682AE5D2851C7C800D30BB5;
+					};
+					3682AE7D2851C7C900D30BB5 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 3682AE5D2851C7C800D30BB5;
+					};
+				};
+			};
+			buildConfigurationList = 3682AE592851C7C800D30BB5 /* Build configuration list for PBXProject "TFYSwiftEasyBlueTooth" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3682AE552851C7C800D30BB5;
+			productRefGroup = 3682AE5F2851C7C800D30BB5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3682AE5D2851C7C800D30BB5 /* TFYSwiftEasyBlueTooth */,
+				3682AE732851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests */,
+				3682AE7D2851C7C900D30BB5 /* TFYSwiftEasyBlueToothUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3682AE5C2851C7C800D30BB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3682AE6E2851C7C900D30BB5 /* LaunchScreen.storyboard in Resources */,
+				3682AE6B2851C7C900D30BB5 /* Assets.xcassets in Resources */,
+				3682AE692851C7C800D30BB5 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3682AE722851C7C900D30BB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3682AE7C2851C7C900D30BB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3682AE5A2851C7C800D30BB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3682AE662851C7C800D30BB5 /* ViewController.swift in Sources */,
+				3682AE622851C7C800D30BB5 /* AppDelegate.swift in Sources */,
+				3682AE642851C7C800D30BB5 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3682AE702851C7C900D30BB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3682AE792851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3682AE7A2851C7C900D30BB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3682AE832851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests.swift in Sources */,
+				3682AE852851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3682AE762851C7C900D30BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3682AE5D2851C7C800D30BB5 /* TFYSwiftEasyBlueTooth */;
+			targetProxy = 3682AE752851C7C900D30BB5 /* PBXContainerItemProxy */;
+		};
+		3682AE802851C7CA00D30BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3682AE5D2851C7C800D30BB5 /* TFYSwiftEasyBlueTooth */;
+			targetProxy = 3682AE7F2851C7CA00D30BB5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3682AE672851C7C800D30BB5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3682AE682851C7C800D30BB5 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3682AE6C2851C7C900D30BB5 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3682AE6D2851C7C900D30BB5 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3682AE862851C7CA00D30BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3682AE872851C7CA00D30BB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3682AE892851C7CA00D30BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W27SB687KJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TFYSwiftEasyBlueTooth/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = TFYSwiftEasyBlueTooth.TFYSwiftEasyBlueTooth;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3682AE8A2851C7CA00D30BB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W27SB687KJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TFYSwiftEasyBlueTooth/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = TFYSwiftEasyBlueTooth.TFYSwiftEasyBlueTooth;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3682AE8C2851C7CA00D30BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W27SB687KJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = TFYSwiftEasyBlueTooth.TFYSwiftEasyBlueToothTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TFYSwiftEasyBlueTooth.app/TFYSwiftEasyBlueTooth";
+			};
+			name = Debug;
+		};
+		3682AE8D2851C7CA00D30BB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W27SB687KJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = TFYSwiftEasyBlueTooth.TFYSwiftEasyBlueToothTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TFYSwiftEasyBlueTooth.app/TFYSwiftEasyBlueTooth";
+			};
+			name = Release;
+		};
+		3682AE8F2851C7CA00D30BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W27SB687KJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = TFYSwiftEasyBlueTooth.TFYSwiftEasyBlueToothUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TFYSwiftEasyBlueTooth;
+			};
+			name = Debug;
+		};
+		3682AE902851C7CA00D30BB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W27SB687KJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = TFYSwiftEasyBlueTooth.TFYSwiftEasyBlueToothUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TFYSwiftEasyBlueTooth;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3682AE592851C7C800D30BB5 /* Build configuration list for PBXProject "TFYSwiftEasyBlueTooth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3682AE862851C7CA00D30BB5 /* Debug */,
+				3682AE872851C7CA00D30BB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3682AE882851C7CA00D30BB5 /* Build configuration list for PBXNativeTarget "TFYSwiftEasyBlueTooth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3682AE892851C7CA00D30BB5 /* Debug */,
+				3682AE8A2851C7CA00D30BB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3682AE8B2851C7CA00D30BB5 /* Build configuration list for PBXNativeTarget "TFYSwiftEasyBlueToothTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3682AE8C2851C7CA00D30BB5 /* Debug */,
+				3682AE8D2851C7CA00D30BB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3682AE8E2851C7CA00D30BB5 /* Build configuration list for PBXNativeTarget "TFYSwiftEasyBlueToothUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3682AE8F2851C7CA00D30BB5 /* Debug */,
+				3682AE902851C7CA00D30BB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3682AE562851C7C800D30BB5 /* Project object */;
+}
