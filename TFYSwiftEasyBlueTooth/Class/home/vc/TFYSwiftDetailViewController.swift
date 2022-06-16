@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TFYProgressSwiftHUD
 
 class TFYSwiftDetailViewController: UIViewController {
 
@@ -64,6 +65,7 @@ class TFYSwiftDetailViewController: UIViewController {
     }
     
     func blueLayoueData() {
+        TFYProgressSwiftHUD.show()
         self.peripheral?.discoverAllDeviceServiceWithCallback(callback: { peripheral, serviceArray, error in
             serviceArray.forEach { tempS in
                 tempS.discoverCharacteristicWithCharacteristicUUIDs { characteristics, error in
@@ -81,6 +83,7 @@ class TFYSwiftDetailViewController: UIViewController {
                                 TFYSwiftAsynce.async {
                                 } _: {
                                     self.tableView.reloadData()
+                                    TFYProgressSwiftHUD.dismiss()
                                 }
                             }
                         }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import TFYProgressSwiftHUD
 
 class ViewController: UIViewController {
 
@@ -104,7 +105,9 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
             vc.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
+            TFYProgressSwiftHUD.show()
             data.connectDeviceWithTimeOut { perpheral, error, type in
+                TFYProgressSwiftHUD.dismiss()
                 if type == .deviceConnectTypeDisConnect {
                     let aler:UIAlertController = UIAlertController(title: "设备失去连接", message: error!.localizedDescription, preferredStyle: .alert)
                     let alerAction:UIAlertAction = UIAlertAction(title: "重新连接", style: .default) { action in
