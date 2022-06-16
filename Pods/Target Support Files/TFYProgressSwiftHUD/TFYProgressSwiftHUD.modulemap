@@ -1,0 +1,6 @@
+framework module TFYProgressSwiftHUD {
+  umbrella header "TFYProgressSwiftHUD-umbrella.h"
+
+  export *
+  module * { export * }
+}

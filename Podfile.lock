@@ -1,0 +1,16 @@
+PODS:
+  - TFYProgressSwiftHUD (2.0.8)
+
+DEPENDENCIES:
+  - TFYProgressSwiftHUD
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - TFYProgressSwiftHUD
+
+SPEC CHECKSUMS:
+  TFYProgressSwiftHUD: bf6f764d79cdc5fe2af3634ce4f9437a671527b2
+
+PODFILE CHECKSUM: eca49e386397df14f6b27f263ee3f5bd3fa4089e
+
+COCOAPODS: 1.11.3

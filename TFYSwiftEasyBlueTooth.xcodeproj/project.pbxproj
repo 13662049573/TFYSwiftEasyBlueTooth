@@ -7,15 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		363D0148285AA75E007E1C27 /* TFYSwiftDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363D0147285AA75E007E1C27 /* TFYSwiftDetailHeaderView.swift */; };
+		363D014A285AC178007E1C27 /* TFYSwiftDetailOperationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363D0149285AC178007E1C27 /* TFYSwiftDetailOperationCell.swift */; };
+		363D014C285AE01E007E1C27 /* TFYSwiftMineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363D014B285AE01E007E1C27 /* TFYSwiftMineTableViewCell.swift */; };
+		363D014E285AE1B5007E1C27 /* TFYSwiftExampleScanNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363D014D285AE1B5007E1C27 /* TFYSwiftExampleScanNameController.swift */; };
+		363D0150285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363D014F285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift */; };
 		3682AE622851C7C800D30BB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE612851C7C800D30BB5 /* AppDelegate.swift */; };
 		3682AE642851C7C800D30BB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE632851C7C800D30BB5 /* SceneDelegate.swift */; };
-		3682AE662851C7C800D30BB5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE652851C7C800D30BB5 /* ViewController.swift */; };
-		3682AE692851C7C800D30BB5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3682AE672851C7C800D30BB5 /* Main.storyboard */; };
 		3682AE6B2851C7C900D30BB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3682AE6A2851C7C900D30BB5 /* Assets.xcassets */; };
 		3682AE6E2851C7C900D30BB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3682AE6C2851C7C900D30BB5 /* LaunchScreen.storyboard */; };
 		3682AE792851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE782851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests.swift */; };
 		3682AE832851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE822851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests.swift */; };
 		3682AE852851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE842851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITestsLaunchTests.swift */; };
+		36AE25E12857066800927FDD /* TFYSwiftEasyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE25E02857066800927FDD /* TFYSwiftEasyUtils.swift */; };
+		36AE25E328570BFC00927FDD /* TFYSwiftEasyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE25E228570BFC00927FDD /* TFYSwiftEasyService.swift */; };
+		36AE25E52857101F00927FDD /* TFYSwiftEasyPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE25E42857101F00927FDD /* TFYSwiftEasyPeripheral.swift */; };
+		36AE25E72857113F00927FDD /* TFYSwiftEasyCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE25E62857113F00927FDD /* TFYSwiftEasyCharacteristic.swift */; };
+		36AE25E928571AE200927FDD /* TFYSwiftEasyDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE25E828571AE200927FDD /* TFYSwiftEasyDescriptor.swift */; };
+		36AE25EB2857229E00927FDD /* TFYSwiftEasyManagerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE25EA2857229E00927FDD /* TFYSwiftEasyManagerOptions.swift */; };
+		36AE25ED285727B100927FDD /* TFYSwiftEasyCenterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE25EC285727B100927FDD /* TFYSwiftEasyCenterManager.swift */; };
+		36AE25EF28572FC000927FDD /* TFYSwiftAsynce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE25EE28572FC000927FDD /* TFYSwiftAsynce.swift */; };
+		36AE25F1285852FC00927FDD /* TFYSwIFTEasyBlueToothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE25F0285852FC00927FDD /* TFYSwIFTEasyBlueToothManager.swift */; };
+		36AE261128598CE500927FDD /* TFYViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE260C28598CE500927FDD /* TFYViewTableViewCell.swift */; };
+		36AE261228598CE500927FDD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE260E28598CE500927FDD /* ViewController.swift */; };
+		36AE261428598D1600927FDD /* TFYSwiftTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE261328598D1600927FDD /* TFYSwiftTabbarController.swift */; };
+		36AE261628598D8D00927FDD /* TFYSwiftMineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE261528598D8D00927FDD /* TFYSwiftMineController.swift */; };
+		36AE261A2859A9CA00927FDD /* TFYSwiftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE26192859A9CA00927FDD /* TFYSwiftDetailViewController.swift */; };
+		36AE261C2859B3E700927FDD /* TFYSwiftDetailOneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE261B2859B3E700927FDD /* TFYSwiftDetailOneTableViewCell.swift */; };
+		36AE261E2859B6FF00927FDD /* TFYSwiftDetailHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE261D2859B6FF00927FDD /* TFYSwiftDetailHeaderFooterView.swift */; };
+		36AE26202859BC6900927FDD /* TFYSwiftDetailOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AE261F2859BC6900927FDD /* TFYSwiftDetailOperationController.swift */; };
+		4B10FDAB10CC97B3180F11CB /* Pods_TFYSwiftEasyBlueTooth_TFYSwiftEasyBlueToothUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3A4520D8BCB3CEB64D01E56 /* Pods_TFYSwiftEasyBlueTooth_TFYSwiftEasyBlueToothUITests.framework */; };
+		B933AAA5D26785D5B046930D /* Pods_TFYSwiftEasyBlueToothTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A081152EAD1D771C6075BC8 /* Pods_TFYSwiftEasyBlueToothTests.framework */; };
+		FE0982AC06BA2CB40AD717ED /* Pods_TFYSwiftEasyBlueTooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303383F4706F67EEB7C0794A /* Pods_TFYSwiftEasyBlueTooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,11 +59,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		22B9D0F8AB94C6CF240B473B /* Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.release.xcconfig"; path = "Target Support Files/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.release.xcconfig"; sourceTree = "<group>"; };
+		303383F4706F67EEB7C0794A /* Pods_TFYSwiftEasyBlueTooth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TFYSwiftEasyBlueTooth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		363D0147285AA75E007E1C27 /* TFYSwiftDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftDetailHeaderView.swift; sourceTree = "<group>"; };
+		363D0149285AC178007E1C27 /* TFYSwiftDetailOperationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftDetailOperationCell.swift; sourceTree = "<group>"; };
+		363D014B285AE01E007E1C27 /* TFYSwiftMineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftMineTableViewCell.swift; sourceTree = "<group>"; };
+		363D014D285AE1B5007E1C27 /* TFYSwiftExampleScanNameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftExampleScanNameController.swift; sourceTree = "<group>"; };
+		363D014F285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftExampleSavedController.swift; sourceTree = "<group>"; };
 		3682AE5E2851C7C800D30BB5 /* TFYSwiftEasyBlueTooth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFYSwiftEasyBlueTooth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3682AE612851C7C800D30BB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3682AE632851C7C800D30BB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3682AE652851C7C800D30BB5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3682AE682851C7C800D30BB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3682AE6A2851C7C900D30BB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3682AE6D2851C7C900D30BB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3682AE6F2851C7C900D30BB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +77,30 @@
 		3682AE7E2851C7C900D30BB5 /* TFYSwiftEasyBlueToothUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TFYSwiftEasyBlueToothUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3682AE822851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyBlueToothUITests.swift; sourceTree = "<group>"; };
 		3682AE842851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyBlueToothUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		36AE25E02857066800927FDD /* TFYSwiftEasyUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyUtils.swift; sourceTree = "<group>"; };
+		36AE25E228570BFC00927FDD /* TFYSwiftEasyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyService.swift; sourceTree = "<group>"; };
+		36AE25E42857101F00927FDD /* TFYSwiftEasyPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyPeripheral.swift; sourceTree = "<group>"; };
+		36AE25E62857113F00927FDD /* TFYSwiftEasyCharacteristic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyCharacteristic.swift; sourceTree = "<group>"; };
+		36AE25E828571AE200927FDD /* TFYSwiftEasyDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyDescriptor.swift; sourceTree = "<group>"; };
+		36AE25EA2857229E00927FDD /* TFYSwiftEasyManagerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyManagerOptions.swift; sourceTree = "<group>"; };
+		36AE25EC285727B100927FDD /* TFYSwiftEasyCenterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftEasyCenterManager.swift; sourceTree = "<group>"; };
+		36AE25EE28572FC000927FDD /* TFYSwiftAsynce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftAsynce.swift; sourceTree = "<group>"; };
+		36AE25F0285852FC00927FDD /* TFYSwIFTEasyBlueToothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwIFTEasyBlueToothManager.swift; sourceTree = "<group>"; };
+		36AE260C28598CE500927FDD /* TFYViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYViewTableViewCell.swift; sourceTree = "<group>"; };
+		36AE260E28598CE500927FDD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		36AE261328598D1600927FDD /* TFYSwiftTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftTabbarController.swift; sourceTree = "<group>"; };
+		36AE261528598D8D00927FDD /* TFYSwiftMineController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftMineController.swift; sourceTree = "<group>"; };
+		36AE26192859A9CA00927FDD /* TFYSwiftDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftDetailViewController.swift; sourceTree = "<group>"; };
+		36AE261B2859B3E700927FDD /* TFYSwiftDetailOneTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftDetailOneTableViewCell.swift; sourceTree = "<group>"; };
+		36AE261D2859B6FF00927FDD /* TFYSwiftDetailHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftDetailHeaderFooterView.swift; sourceTree = "<group>"; };
+		36AE261F2859BC6900927FDD /* TFYSwiftDetailOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftDetailOperationController.swift; sourceTree = "<group>"; };
+		4A081152EAD1D771C6075BC8 /* Pods_TFYSwiftEasyBlueToothTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TFYSwiftEasyBlueToothTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C8BABE1369726E896B8CFF7 /* Pods-TFYSwiftEasyBlueTooth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFYSwiftEasyBlueTooth.release.xcconfig"; path = "Target Support Files/Pods-TFYSwiftEasyBlueTooth/Pods-TFYSwiftEasyBlueTooth.release.xcconfig"; sourceTree = "<group>"; };
+		ACC6926BD4CCDEF5C739673C /* Pods-TFYSwiftEasyBlueTooth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFYSwiftEasyBlueTooth.debug.xcconfig"; path = "Target Support Files/Pods-TFYSwiftEasyBlueTooth/Pods-TFYSwiftEasyBlueTooth.debug.xcconfig"; sourceTree = "<group>"; };
+		C40BCF5A426AAB5A726C1F2F /* Pods-TFYSwiftEasyBlueToothTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFYSwiftEasyBlueToothTests.release.xcconfig"; path = "Target Support Files/Pods-TFYSwiftEasyBlueToothTests/Pods-TFYSwiftEasyBlueToothTests.release.xcconfig"; sourceTree = "<group>"; };
+		C6AEAB68549F3B1D95B06824 /* Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.debug.xcconfig"; path = "Target Support Files/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E3A4520D8BCB3CEB64D01E56 /* Pods_TFYSwiftEasyBlueTooth_TFYSwiftEasyBlueToothUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TFYSwiftEasyBlueTooth_TFYSwiftEasyBlueToothUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC24094F9B37051CAFDA4D06 /* Pods-TFYSwiftEasyBlueToothTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFYSwiftEasyBlueToothTests.debug.xcconfig"; path = "Target Support Files/Pods-TFYSwiftEasyBlueToothTests/Pods-TFYSwiftEasyBlueToothTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE0982AC06BA2CB40AD717ED /* Pods_TFYSwiftEasyBlueTooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B933AAA5D26785D5B046930D /* Pods_TFYSwiftEasyBlueToothTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B10FDAB10CC97B3180F11CB /* Pods_TFYSwiftEasyBlueTooth_TFYSwiftEasyBlueToothUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +138,8 @@
 				3682AE772851C7C900D30BB5 /* TFYSwiftEasyBlueToothTests */,
 				3682AE812851C7CA00D30BB5 /* TFYSwiftEasyBlueToothUITests */,
 				3682AE5F2851C7C800D30BB5 /* Products */,
+				867B6CAB7A524C3B8BC58180 /* Pods */,
+				86D2F69465106A2A0A339518 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,10 +156,10 @@
 		3682AE602851C7C800D30BB5 /* TFYSwiftEasyBlueTooth */ = {
 			isa = PBXGroup;
 			children = (
+				3682AE912851C82C00D30BB5 /* TFYSwiftEasyBlueToothKit */,
 				3682AE612851C7C800D30BB5 /* AppDelegate.swift */,
 				3682AE632851C7C800D30BB5 /* SceneDelegate.swift */,
-				3682AE652851C7C800D30BB5 /* ViewController.swift */,
-				3682AE672851C7C800D30BB5 /* Main.storyboard */,
+				36AE25F22859644B00927FDD /* Class */,
 				3682AE6A2851C7C900D30BB5 /* Assets.xcassets */,
 				3682AE6C2851C7C900D30BB5 /* LaunchScreen.storyboard */,
 				3682AE6F2851C7C900D30BB5 /* Info.plist */,
@@ -127,6 +184,186 @@
 			path = TFYSwiftEasyBlueToothUITests;
 			sourceTree = "<group>";
 		};
+		3682AE912851C82C00D30BB5 /* TFYSwiftEasyBlueToothKit */ = {
+			isa = PBXGroup;
+			children = (
+				36AE25E02857066800927FDD /* TFYSwiftEasyUtils.swift */,
+				36AE25E228570BFC00927FDD /* TFYSwiftEasyService.swift */,
+				36AE25E42857101F00927FDD /* TFYSwiftEasyPeripheral.swift */,
+				36AE25E62857113F00927FDD /* TFYSwiftEasyCharacteristic.swift */,
+				36AE25E828571AE200927FDD /* TFYSwiftEasyDescriptor.swift */,
+				36AE25EA2857229E00927FDD /* TFYSwiftEasyManagerOptions.swift */,
+				36AE25EC285727B100927FDD /* TFYSwiftEasyCenterManager.swift */,
+				36AE25EE28572FC000927FDD /* TFYSwiftAsynce.swift */,
+				36AE25F0285852FC00927FDD /* TFYSwIFTEasyBlueToothManager.swift */,
+			);
+			path = TFYSwiftEasyBlueToothKit;
+			sourceTree = "<group>";
+		};
+		36AE25F22859644B00927FDD /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				36AE260A28598CE500927FDD /* home */,
+				36AE260528598CE500927FDD /* mine */,
+				36AE25FB28598CE500927FDD /* tabbar */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
+		36AE25FB28598CE500927FDD /* tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				36AE25FC28598CE500927FDD /* cell */,
+				36AE25FD28598CE500927FDD /* vc */,
+				36AE25FE28598CE500927FDD /* list */,
+				36AE25FF28598CE500927FDD /* view */,
+			);
+			path = tabbar;
+			sourceTree = "<group>";
+		};
+		36AE25FC28598CE500927FDD /* cell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
+		36AE25FD28598CE500927FDD /* vc */ = {
+			isa = PBXGroup;
+			children = (
+				36AE261328598D1600927FDD /* TFYSwiftTabbarController.swift */,
+			);
+			path = vc;
+			sourceTree = "<group>";
+		};
+		36AE25FE28598CE500927FDD /* list */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = list;
+			sourceTree = "<group>";
+		};
+		36AE25FF28598CE500927FDD /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		36AE260528598CE500927FDD /* mine */ = {
+			isa = PBXGroup;
+			children = (
+				36AE260628598CE500927FDD /* cell */,
+				36AE260728598CE500927FDD /* vc */,
+				36AE260828598CE500927FDD /* list */,
+				36AE260928598CE500927FDD /* view */,
+			);
+			path = mine;
+			sourceTree = "<group>";
+		};
+		36AE260628598CE500927FDD /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				363D014B285AE01E007E1C27 /* TFYSwiftMineTableViewCell.swift */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
+		36AE260728598CE500927FDD /* vc */ = {
+			isa = PBXGroup;
+			children = (
+				36AE261528598D8D00927FDD /* TFYSwiftMineController.swift */,
+				363D014D285AE1B5007E1C27 /* TFYSwiftExampleScanNameController.swift */,
+				363D014F285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift */,
+			);
+			path = vc;
+			sourceTree = "<group>";
+		};
+		36AE260828598CE500927FDD /* list */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = list;
+			sourceTree = "<group>";
+		};
+		36AE260928598CE500927FDD /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		36AE260A28598CE500927FDD /* home */ = {
+			isa = PBXGroup;
+			children = (
+				36AE260B28598CE500927FDD /* cell */,
+				36AE260D28598CE500927FDD /* vc */,
+				36AE260F28598CE500927FDD /* list */,
+				36AE261028598CE500927FDD /* view */,
+			);
+			path = home;
+			sourceTree = "<group>";
+		};
+		36AE260B28598CE500927FDD /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				36AE260C28598CE500927FDD /* TFYViewTableViewCell.swift */,
+				36AE261B2859B3E700927FDD /* TFYSwiftDetailOneTableViewCell.swift */,
+				363D0149285AC178007E1C27 /* TFYSwiftDetailOperationCell.swift */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
+		36AE260D28598CE500927FDD /* vc */ = {
+			isa = PBXGroup;
+			children = (
+				36AE260E28598CE500927FDD /* ViewController.swift */,
+				36AE26192859A9CA00927FDD /* TFYSwiftDetailViewController.swift */,
+				36AE261F2859BC6900927FDD /* TFYSwiftDetailOperationController.swift */,
+			);
+			path = vc;
+			sourceTree = "<group>";
+		};
+		36AE260F28598CE500927FDD /* list */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = list;
+			sourceTree = "<group>";
+		};
+		36AE261028598CE500927FDD /* view */ = {
+			isa = PBXGroup;
+			children = (
+				36AE261D2859B6FF00927FDD /* TFYSwiftDetailHeaderFooterView.swift */,
+				363D0147285AA75E007E1C27 /* TFYSwiftDetailHeaderView.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		867B6CAB7A524C3B8BC58180 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ACC6926BD4CCDEF5C739673C /* Pods-TFYSwiftEasyBlueTooth.debug.xcconfig */,
+				7C8BABE1369726E896B8CFF7 /* Pods-TFYSwiftEasyBlueTooth.release.xcconfig */,
+				C6AEAB68549F3B1D95B06824 /* Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.debug.xcconfig */,
+				22B9D0F8AB94C6CF240B473B /* Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.release.xcconfig */,
+				FC24094F9B37051CAFDA4D06 /* Pods-TFYSwiftEasyBlueToothTests.debug.xcconfig */,
+				C40BCF5A426AAB5A726C1F2F /* Pods-TFYSwiftEasyBlueToothTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		86D2F69465106A2A0A339518 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				303383F4706F67EEB7C0794A /* Pods_TFYSwiftEasyBlueTooth.framework */,
+				E3A4520D8BCB3CEB64D01E56 /* Pods_TFYSwiftEasyBlueTooth_TFYSwiftEasyBlueToothUITests.framework */,
+				4A081152EAD1D771C6075BC8 /* Pods_TFYSwiftEasyBlueToothTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -134,9 +371,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3682AE882851C7CA00D30BB5 /* Build configuration list for PBXNativeTarget "TFYSwiftEasyBlueTooth" */;
 			buildPhases = (
+				D0DAA9A84A3E0A1353C462BA /* [CP] Check Pods Manifest.lock */,
 				3682AE5A2851C7C800D30BB5 /* Sources */,
 				3682AE5B2851C7C800D30BB5 /* Frameworks */,
 				3682AE5C2851C7C800D30BB5 /* Resources */,
+				0BE40A5D84CFB9F56E37AD06 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -151,6 +390,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3682AE8B2851C7CA00D30BB5 /* Build configuration list for PBXNativeTarget "TFYSwiftEasyBlueToothTests" */;
 			buildPhases = (
+				7E572952FE766696EA101690 /* [CP] Check Pods Manifest.lock */,
 				3682AE702851C7C900D30BB5 /* Sources */,
 				3682AE712851C7C900D30BB5 /* Frameworks */,
 				3682AE722851C7C900D30BB5 /* Resources */,
@@ -169,9 +409,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3682AE8E2851C7CA00D30BB5 /* Build configuration list for PBXNativeTarget "TFYSwiftEasyBlueToothUITests" */;
 			buildPhases = (
+				91FE9A2C5AE67232A170A465 /* [CP] Check Pods Manifest.lock */,
 				3682AE7A2851C7C900D30BB5 /* Sources */,
 				3682AE7B2851C7C900D30BB5 /* Frameworks */,
 				3682AE7C2851C7C900D30BB5 /* Resources */,
+				E6BDB3E5434C66394D855F46 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -190,8 +432,10 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				CLASSPREFIX = TFYSwift;
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
+				ORGANIZATIONNAME = TFYSwift;
 				TargetAttributes = {
 					3682AE5D2851C7C800D30BB5 = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -233,7 +477,6 @@
 			files = (
 				3682AE6E2851C7C900D30BB5 /* LaunchScreen.storyboard in Resources */,
 				3682AE6B2851C7C900D30BB5 /* Assets.xcassets in Resources */,
-				3682AE692851C7C800D30BB5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,14 +496,138 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0BE40A5D84CFB9F56E37AD06 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TFYSwiftEasyBlueTooth/Pods-TFYSwiftEasyBlueTooth-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TFYSwiftEasyBlueTooth/Pods-TFYSwiftEasyBlueTooth-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TFYSwiftEasyBlueTooth/Pods-TFYSwiftEasyBlueTooth-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E572952FE766696EA101690 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TFYSwiftEasyBlueToothTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		91FE9A2C5AE67232A170A465 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0DAA9A84A3E0A1353C462BA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TFYSwiftEasyBlueTooth-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E6BDB3E5434C66394D855F46 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests/Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3682AE5A2851C7C800D30BB5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3682AE662851C7C800D30BB5 /* ViewController.swift in Sources */,
+				36AE261E2859B6FF00927FDD /* TFYSwiftDetailHeaderFooterView.swift in Sources */,
+				36AE261228598CE500927FDD /* ViewController.swift in Sources */,
+				363D0150285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift in Sources */,
+				36AE261C2859B3E700927FDD /* TFYSwiftDetailOneTableViewCell.swift in Sources */,
+				36AE261A2859A9CA00927FDD /* TFYSwiftDetailViewController.swift in Sources */,
+				363D0148285AA75E007E1C27 /* TFYSwiftDetailHeaderView.swift in Sources */,
+				36AE25EB2857229E00927FDD /* TFYSwiftEasyManagerOptions.swift in Sources */,
+				36AE25E928571AE200927FDD /* TFYSwiftEasyDescriptor.swift in Sources */,
+				36AE26202859BC6900927FDD /* TFYSwiftDetailOperationController.swift in Sources */,
+				36AE261428598D1600927FDD /* TFYSwiftTabbarController.swift in Sources */,
+				36AE25E12857066800927FDD /* TFYSwiftEasyUtils.swift in Sources */,
+				36AE25F1285852FC00927FDD /* TFYSwIFTEasyBlueToothManager.swift in Sources */,
+				363D014E285AE1B5007E1C27 /* TFYSwiftExampleScanNameController.swift in Sources */,
 				3682AE622851C7C800D30BB5 /* AppDelegate.swift in Sources */,
 				3682AE642851C7C800D30BB5 /* SceneDelegate.swift in Sources */,
+				36AE25ED285727B100927FDD /* TFYSwiftEasyCenterManager.swift in Sources */,
+				36AE25E328570BFC00927FDD /* TFYSwiftEasyService.swift in Sources */,
+				36AE25E72857113F00927FDD /* TFYSwiftEasyCharacteristic.swift in Sources */,
+				363D014C285AE01E007E1C27 /* TFYSwiftMineTableViewCell.swift in Sources */,
+				36AE261628598D8D00927FDD /* TFYSwiftMineController.swift in Sources */,
+				363D014A285AC178007E1C27 /* TFYSwiftDetailOperationCell.swift in Sources */,
+				36AE25EF28572FC000927FDD /* TFYSwiftAsynce.swift in Sources */,
+				36AE261128598CE500927FDD /* TFYViewTableViewCell.swift in Sources */,
+				36AE25E52857101F00927FDD /* TFYSwiftEasyPeripheral.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,14 +664,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		3682AE672851C7C800D30BB5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3682AE682851C7C800D30BB5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		3682AE6C2851C7C900D30BB5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -432,6 +791,7 @@
 		};
 		3682AE892851C7CA00D30BB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACC6926BD4CCDEF5C739673C /* Pods-TFYSwiftEasyBlueTooth.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -440,11 +800,12 @@
 				DEVELOPMENT_TEAM = W27SB687KJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TFYSwiftEasyBlueTooth/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "蓝牙使用";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -454,12 +815,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		3682AE8A2851C7CA00D30BB5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C8BABE1369726E896B8CFF7 /* Pods-TFYSwiftEasyBlueTooth.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -468,11 +830,12 @@
 				DEVELOPMENT_TEAM = W27SB687KJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TFYSwiftEasyBlueTooth/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "蓝牙使用";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -482,12 +845,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		3682AE8C2851C7CA00D30BB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC24094F9B37051CAFDA4D06 /* Pods-TFYSwiftEasyBlueToothTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -508,6 +872,7 @@
 		};
 		3682AE8D2851C7CA00D30BB5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C40BCF5A426AAB5A726C1F2F /* Pods-TFYSwiftEasyBlueToothTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -528,6 +893,7 @@
 		};
 		3682AE8F2851C7CA00D30BB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C6AEAB68549F3B1D95B06824 /* Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -546,6 +912,7 @@
 		};
 		3682AE902851C7CA00D30BB5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 22B9D0F8AB94C6CF240B473B /* Pods-TFYSwiftEasyBlueTooth-TFYSwiftEasyBlueToothUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
