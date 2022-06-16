@@ -26,7 +26,7 @@ Pod::Spec.new do |spec|
 
   spec.source       = { :git => "http://EXAMPLE/TFYSwiftEasyBlueToothKit.git", :tag => "#{spec.version}" }
 
-  spec.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/*.{swift}"
+  spec.source_files  = "TFYSwiftEasyBlueTooth/TFYSwiftEasyBlueToothKit/*.{swift}"
   
   spec.requires_arc = true
 
