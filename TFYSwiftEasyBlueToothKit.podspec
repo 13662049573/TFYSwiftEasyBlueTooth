@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftEasyBlueToothKit"
 
-  spec.version      = "1.0.0"
+  spec.version      = "1.0.2"
 
   spec.summary      = "swift5 蓝牙封装 ， 版本最低系统支持ios13，swift5"
 
