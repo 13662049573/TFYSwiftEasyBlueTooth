@@ -33,7 +33,7 @@ class TFYSwiftMineController: UIViewController {
         return manage
     }()
     
-    private var dataArray:[String] = ["指定名称连接设备","扫描指定保存到本地的设备","一行代码连接设备","条件扫描设备名称"]
+    private var dataArray:[String] = ["指定名称连接设备","一行代码连接设备","条件扫描设备名称"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,15 +75,10 @@ extension TFYSwiftMineController: UITableViewDelegate,UITableViewDataSource {
             vc.bleManager = bleManager
             self.navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.row == 1 {
-            let vc:TFYSwiftExampleSavedController = TFYSwiftExampleSavedController()
-            vc.hidesBottomBarWhenPushed = true
-            vc.bleManager = bleManager
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else if indexPath.row == 2 {
             self.bleManager.connectDeviceWithIdentifier(identifier: "5E40E1BC-732E-042E-7C56-9F89D59FB0E8") { peripheral, error in
                 print("连接成功设备==============name:\(String(describing: peripheral?.name))")
             }
-        } else if indexPath.row == 3 {
+        } else if indexPath.row == 2 {
             self.bleManager.scanAllDeviceWithRule { peripheral in
                 var namebool:Bool = false
                 if peripheral.name != nil {

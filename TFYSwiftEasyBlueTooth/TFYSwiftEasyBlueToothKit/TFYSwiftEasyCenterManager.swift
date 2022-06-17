@@ -230,7 +230,6 @@ extension TFYSwiftEasyCenterManager:CBCentralManagerDelegate {
             self.manager = central
             central.scanForPeripherals(withServices: nil, options: nil)
         }
-        
     }
     /// 搜索到新的外设
     ///
@@ -304,7 +303,7 @@ extension TFYSwiftEasyCenterManager:CBCentralManagerDelegate {
                 self.foundDeviceDict.updateValue(existedP as Any, forKey: peripheral.identifier.uuidString)
             }
         }
-        let error:Error = NSError()
+        let error:Error? = nil
         existedP?.dealDeviceConnectWithError(error: error, type: .deviceConnectTypeSuccess)
     }
     

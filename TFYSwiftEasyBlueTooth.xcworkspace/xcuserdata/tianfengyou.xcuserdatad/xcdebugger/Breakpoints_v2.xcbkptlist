@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "7B9C718D-C2B1-4A6B-BC3D-8B1320E38C6D"
-   type = "1"
+   uuid = "53969F21-F66D-4053-9182-EBE02F6AD23A"
+   type = "0"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "811F4F3C-80F1-43E0-B3E8-B59C2830C970"
+            uuid = "4236B692-C1E4-4D64-ACC9-2466C7EEBE9D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TFYSwiftEasyBlueTooth/TFYSwiftEasyBlueToothKit/TFYSwiftEasyCenterManager.swift"
+            filePath = "TFYSwiftEasyBlueTooth/TFYSwiftEasyBlueToothKit/TFYSwIFTEasyBlueToothManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "scanDeviceWithTimeInterval(timeInterval:service:options:callBack:)"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "scanAllDeviceAsyncWithRule(rule:callback:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D93CF8C6-DF30-4198-8233-CF39728D6E5C"
+            uuid = "72E1C410-584C-424C-A44A-D4241547F43C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TFYSwiftEasyBlueTooth/TFYSwiftEasyBlueToothKit/TFYSwiftEasyCenterManager.swift"
+            filePath = "TFYSwiftEasyBlueTooth/TFYSwiftEasyBlueToothKit/TFYSwIFTEasyBlueToothManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
-            landmarkName = "centralManager(_:didFailToConnect:error:)"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "connectDeviceWithPeripheral(peripheral:callback:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

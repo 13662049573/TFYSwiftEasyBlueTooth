@@ -11,7 +11,6 @@
 		363D014A285AC178007E1C27 /* TFYSwiftDetailOperationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363D0149285AC178007E1C27 /* TFYSwiftDetailOperationCell.swift */; };
 		363D014C285AE01E007E1C27 /* TFYSwiftMineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363D014B285AE01E007E1C27 /* TFYSwiftMineTableViewCell.swift */; };
 		363D014E285AE1B5007E1C27 /* TFYSwiftExampleScanNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363D014D285AE1B5007E1C27 /* TFYSwiftExampleScanNameController.swift */; };
-		363D0150285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363D014F285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift */; };
 		3682AE622851C7C800D30BB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE612851C7C800D30BB5 /* AppDelegate.swift */; };
 		3682AE642851C7C800D30BB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3682AE632851C7C800D30BB5 /* SceneDelegate.swift */; };
 		3682AE6B2851C7C900D30BB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3682AE6A2851C7C900D30BB5 /* Assets.xcassets */; };
@@ -65,7 +64,6 @@
 		363D0149285AC178007E1C27 /* TFYSwiftDetailOperationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftDetailOperationCell.swift; sourceTree = "<group>"; };
 		363D014B285AE01E007E1C27 /* TFYSwiftMineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftMineTableViewCell.swift; sourceTree = "<group>"; };
 		363D014D285AE1B5007E1C27 /* TFYSwiftExampleScanNameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftExampleScanNameController.swift; sourceTree = "<group>"; };
-		363D014F285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftExampleSavedController.swift; sourceTree = "<group>"; };
 		3682AE5E2851C7C800D30BB5 /* TFYSwiftEasyBlueTooth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFYSwiftEasyBlueTooth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3682AE612851C7C800D30BB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3682AE632851C7C800D30BB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -274,7 +272,6 @@
 			children = (
 				36AE261528598D8D00927FDD /* TFYSwiftMineController.swift */,
 				363D014D285AE1B5007E1C27 /* TFYSwiftExampleScanNameController.swift */,
-				363D014F285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift */,
 			);
 			path = vc;
 			sourceTree = "<group>";
@@ -605,7 +602,6 @@
 			files = (
 				36AE261E2859B6FF00927FDD /* TFYSwiftDetailHeaderFooterView.swift in Sources */,
 				36AE261228598CE500927FDD /* ViewController.swift in Sources */,
-				363D0150285AE1FE007E1C27 /* TFYSwiftExampleSavedController.swift in Sources */,
 				36AE261C2859B3E700927FDD /* TFYSwiftDetailOneTableViewCell.swift in Sources */,
 				36AE261A2859A9CA00927FDD /* TFYSwiftDetailViewController.swift in Sources */,
 				363D0148285AA75E007E1C27 /* TFYSwiftDetailHeaderView.swift in Sources */,

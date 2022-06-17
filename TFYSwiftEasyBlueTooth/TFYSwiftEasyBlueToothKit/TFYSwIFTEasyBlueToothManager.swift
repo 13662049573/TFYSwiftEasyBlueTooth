@@ -134,7 +134,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
             if searchType == .searchFlagTypeFinish {
                 self?.centerManager.stopScanDevice()
                 
-                var tempError:NSError = NSError()
+                var tempError:NSError? = nil
                 if self?.centerManager.manager.state == .poweredOff {
                     tempError = NSError(domain: "中心经理状态已关闭", code: bluetoothErrorState.bluetoothErrorStateNoReadly.rawValue, userInfo: nil)
                 }
@@ -144,14 +144,13 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
             }
             
             if rule!(peripheral!) {
-                let tempError:NSError = NSError()
                 if searchType == .searchFlagTypeAdded {
                     self?.bluetoothState = .bluetoothStateDeviceFounded
                     if self?.bluetoothStateChanged != nil {
                         self?.bluetoothStateChanged!(peripheral,.bluetoothStateDeviceFounded)
                     }
                 }
-                callback!(peripheral!,searchType,tempError)
+                callback!(peripheral!,searchType,nil)
             }
             
         }
@@ -169,24 +168,22 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
     /// 连接一个设备 （和下面的 扫描/连接 同时进行 需要区别 ）
     /// identifier 设备唯一ID <上一步扫描成功后，可以把这个ID保存到本地。然后在下一次连接的时候，可以直接拿这个ID来连接，省略了扫描一步>
     func connectDeviceWithIdentifier(identifier:String,callback:blueToothConnectCallback?) {
-        let peripheral:TFYSwiftEasyPeripheral? = nil
         if identifier.isEmpty {
             let error:NSError = NSError(domain: "标识符为空！", code: bluetoothErrorState.bluetoothErrorStateIdentifierError.rawValue, userInfo: nil)
-            callback!(peripheral!,error)
+            callback!(nil,error)
             return
         }
         let uuid:UUID = UUID(uuidString: identifier)!
         let UUIDString:String = uuid.uuidString
         if UUIDString.isEmpty {
             let error:NSError = NSError(domain: "标识符无效！", code: bluetoothErrorState.bluetoothErrorStateIdentifierError.rawValue, userInfo: nil)
-            callback!(peripheral!,error)
+            callback!(nil,error)
             return
         }
         
         if self.centerManager.connectedDeviceDict[UUIDString] != nil {
-            let error:NSError = NSError()
             let peripheral:TFYSwiftEasyPeripheral = self.centerManager.connectedDeviceDict[UUIDString] as! TFYSwiftEasyPeripheral
-            callback!(peripheral,error)
+            callback!(peripheral,nil)
         } else if self.centerManager.foundDeviceDict[UUIDString] != nil {
             let peripheral:TFYSwiftEasyPeripheral = self.centerManager.foundDeviceDict[UUIDString] as! TFYSwiftEasyPeripheral
             self.connectDeviceWithPeripheral(peripheral: peripheral, callback: callback!)
@@ -196,7 +193,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
             } callback: { peripheral, error in
                 if error != nil {
                     if callback != nil {
-                        callback!(peripheral!,error)
+                        callback!(peripheral,error)
                     }
                 } else {
                     if peripheral == nil {
@@ -215,9 +212,9 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
     }
     func connectDeviceWithPeripheral(peripheral:TFYSwiftEasyPeripheral?,callback: @escaping blueToothConnectCallback) {
         if peripheral == nil {
+            print("设备为空")
             return
         }
-        let error:NSError = NSError()
         self.centerManager.connectedDeviceDict.values.forEach { tempP2 in
             let tempP:TFYSwiftEasyPeripheral = (tempP2 as! TFYSwiftEasyPeripheral)
             if tempP.isEqual(peripheral) {
@@ -225,7 +222,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
                 if self.bluetoothStateChanged != nil {
                     self.bluetoothStateChanged!(peripheral,.bluetoothStateDeviceConnected)
                 }
-                callback(peripheral,error)
+                callback(peripheral,nil)
                 return
             }
         }
@@ -255,7 +252,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
             case .deviceConnectTypeFaild:
                 break
             case .deviceConnectTypeFaildTimeout:
-                var tempError:NSError = NSError()
+                var tempError:NSError? = nil
                 if error != nil {
                     tempError = NSError(domain: error!.localizedDescription, code: bluetoothErrorState.bluetoothErrorStateConnectError.rawValue, userInfo: nil)
                 }
@@ -335,7 +332,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
     func readValueWithPeripheral(peripheral:TFYSwiftEasyPeripheral,serviceUUID:String,readUUID:String,callback:blueToothOperationCallback?) {
         self.searchCharacteristicWithPeripheral(peripheral: peripheral, serviceUUID: serviceUUID, operationUUID: readUUID) { character, error in
             if error != nil {
-                callback!(Data(),error)
+                callback!(nil,error)
                 return
             }
             character?.readValueWithCallback(callback: { characteristic, data, error in
@@ -357,7 +354,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
     func notifyDataWithPeripheral(peripheral:TFYSwiftEasyPeripheral,serviceUUID:String,notifyUUID:String,notifyValue:Bool,callback:blueToothOperationCallback?) {
         self.searchCharacteristicWithPeripheral(peripheral: peripheral, serviceUUID: serviceUUID, operationUUID: notifyUUID) { character, error in
             if error != nil {
-                callback!(Data(),error)
+                callback!(nil,error)
                 return
             }
             character?.notifyWithValue(value: notifyValue, callback: { characteristic, data, error in
@@ -397,7 +394,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
     func readDescriptorWithPeripheral(peripheral:TFYSwiftEasyPeripheral,serviceUUID:String,characterUUID:String,callback:blueToothOperationCallback?) {
         self.searchCharacteristicWithPeripheral(peripheral: peripheral, serviceUUID: serviceUUID, operationUUID: characterUUID) { character, error in
             if error != nil {
-                callback!(Data(),error)
+                callback!(nil,error)
                 return
             }
             if (character?.descriptorArray.count)! > 0 {
@@ -408,7 +405,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
                 })
             } else {
                 let tempError:NSError = NSError(domain: "特点无说明", code: bluetoothErrorState.bluetoothErrorStateNoDescriptor.rawValue, userInfo: nil)
-                callback!(Data(),tempError)
+                callback!(nil,tempError)
             }
         }
     }
@@ -457,7 +454,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
                     }
                 }
             } else {
-                callback!(Data(),error)
+                callback!(nil,error)
             }
         }
     }
@@ -466,17 +463,19 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
         let peripheral:TFYSwiftEasyPeripheral? = nil
         if condition == nil {
             let tempError:NSError = NSError(domain: "条件为零", code: bluetoothErrorState.bluetoothErrorStateNoDevice.rawValue, userInfo: nil)
-            callback!(peripheral!,tempError)
+            callback!(peripheral,tempError)
+            return
         }
+        
         if self.centerManager.manager.state == .poweredOn {
             self.bluetoothState = .bluetoothStateSystemReadly
             let peripheral:TFYSwiftEasyPeripheral? = nil
-            if self.bluetoothStateChanged != nil {
+            if self.bluetoothStateChanged != nil && peripheral != nil {
                 self.bluetoothStateChanged!(peripheral!,.bluetoothStateSystemReadly)
             }
         } else if self.centerManager.manager.state == .poweredOff {
             let tempError:NSError = NSError(domain: "中心经理状态已关闭，并准备开启！", code: bluetoothErrorState.bluetoothErrorStateNoReadlyTring.rawValue, userInfo: nil)
-            callback!(peripheral!,tempError)
+            callback!(peripheral,tempError)
         }
         
         self.centerManager.scanDeviceWithTimeInterval(timeInterval: self.managerOptions?.scanTimeOut, service: self.managerOptions?.scanServiceArray, options: self.managerOptions?.scanOptions) { [weak self] peripheral, searchType in
@@ -505,8 +504,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
                     if self?.bluetoothStateChanged != nil {
                         self?.bluetoothStateChanged!(peripheral,.bluetoothStateDeviceFounded)
                     }
-                    let tempError:NSError = NSError()
-                    callback!(peripheral,tempError)
+                    callback!(peripheral,nil)
                 }
             } else {
                 let rule:blueToothScanRule = condition as! blueToothScanRule
@@ -517,8 +515,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
                     if self?.bluetoothStateChanged != nil {
                         self?.bluetoothStateChanged!(peripheral,.bluetoothStateDeviceFounded)
                     }
-                    let tempError:NSError = NSError()
-                    callback!(peripheral,tempError)
+                    callback!(peripheral,nil)
                 }
             }
         }
@@ -533,7 +530,7 @@ public class TFYSwIFTEasyBlueToothManager: NSObject {
             
             if searchType == .searchFlagTypeFinish {
                 self?.centerManager.stopScanDevice()
-                var tempError:NSError = NSError()
+                var tempError:NSError? = nil
                 if self?.centerManager.manager.state == .poweredOff {
                     tempError = NSError(domain: "中心经理状态已关闭", code: bluetoothErrorState.bluetoothErrorStateNoReadly.rawValue, userInfo: nil)
                 } else {

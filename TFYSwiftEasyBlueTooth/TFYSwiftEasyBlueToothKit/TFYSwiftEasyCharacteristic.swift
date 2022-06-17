@@ -51,10 +51,10 @@ public class TFYSwiftEasyCharacteristic: NSObject {
         let tempString:NSMutableString = NSMutableString()
         switch temProperties {
            case .broadcast :
-            tempString.append("Broadcast ")
+            tempString.append("Broadcast")
             break
         case .writeWithoutResponse:
-            tempString.append("WithoutResponse ")
+            tempString.append("WithoutResponse")
             break
         case .read:
             tempString.append("Read")
@@ -69,7 +69,7 @@ public class TFYSwiftEasyCharacteristic: NSObject {
             tempString.append("Indicate")
             break
         case .authenticatedSignedWrites:
-            tempString.append("AuthenticatedSignedWrites ")
+            tempString.append("AuthenticatedSignedWrites")
             break
         case [.notify, .indicate]:
             tempString.append("Notify,indicate")
@@ -84,9 +84,7 @@ public class TFYSwiftEasyCharacteristic: NSObject {
             tempString.append("read,WithoutResponse,write,notify,indicate")
             break
         default://
-            if tempString.length > 1 {
-                tempString.replaceCharacters(in: NSMakeRange(tempString.length-1, 1), with: "")
-            }
+            tempString.append("\(temProperties)")
             break
         }
         return tempString as String
