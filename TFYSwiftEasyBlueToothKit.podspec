@@ -3,9 +3,9 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftEasyBlueToothKit"
 
-  spec.version      = "1.0.3"
+  spec.version      = "1.0.4"
 
-  spec.summary      = "swift5 蓝牙封装 ， 版本最低系统支持ios14，swift5"
+  spec.summary      = "swift5 蓝牙封装 ， 版本最低系统支持ios15，swift5"
 
   
   spec.description  = <<-DESC
@@ -18,7 +18,7 @@ Pod::Spec.new do |spec|
   
   spec.author       = { "田风有" => "420144542@qq.com" }
   
-  spec.platform     = :ios, "14.0"
+  spec.platform     = :ios, "15.0"
 
   spec.swift_version = '5.0'
 
