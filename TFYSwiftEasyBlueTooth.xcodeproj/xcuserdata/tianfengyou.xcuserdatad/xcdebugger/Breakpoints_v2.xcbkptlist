@@ -18,6 +18,36 @@
             endingLineNumber = "80"
             landmarkName = "scanDeviceWithTimeInterval(timeInterval:service:options:callBack:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "811F4F3C-80F1-43E0-B3E8-B59C2830C970 - 338ed2d4f733a9f2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TFYSwiftEasyBlueTooth.TFYSwiftEasyCenterManager.scanDeviceWithTimeInterval(timeInterval: Swift.Optional&lt;Swift.Int&gt;, service: Swift.Optional&lt;Swift.Array&lt;__C.CBUUID&gt;&gt;, options: Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Any&gt;&gt;, callBack: Swift.Optional&lt;(Swift.Optional&lt;TFYSwiftEasyBlueTooth.TFYSwiftEasyPeripheral&gt;, TFYSwiftEasyBlueTooth.searchFlagType) -&gt; ()&gt;) -&gt; ()"
+                  moduleName = "TFYSwiftEasyBlueTooth.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tianfengyou/Desktop/%E8%87%AA%E5%B7%B1%E5%BA%93/TFYSwiftEasyBlueTooth/TFYSwiftEasyBlueTooth/TFYSwiftEasyBlueToothKit/TFYSwiftEasyCenterManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80">
+               </Location>
+               <Location
+                  uuid = "811F4F3C-80F1-43E0-B3E8-B59C2830C970 - 26efbac01aa84dbb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (TFYSwiftEasyBlueTooth.TFYSwiftEasyPeripheral) -&gt; () in TFYSwiftEasyBlueTooth.TFYSwiftEasyCenterManager.scanDeviceWithTimeInterval(timeInterval: Swift.Optional&lt;Swift.Int&gt;, service: Swift.Optional&lt;Swift.Array&lt;__C.CBUUID&gt;&gt;, options: Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Any&gt;&gt;, callBack: Swift.Optional&lt;(Swift.Optional&lt;TFYSwiftEasyBlueTooth.TFYSwiftEasyPeripheral&gt;, TFYSwiftEasyBlueTooth.searchFlagType) -&gt; ()&gt;) -&gt; ()"
+                  moduleName = "TFYSwiftEasyBlueTooth.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tianfengyou/Desktop/%E8%87%AA%E5%B7%B1%E5%BA%93/TFYSwiftEasyBlueTooth/TFYSwiftEasyBlueTooth/TFYSwiftEasyBlueToothKit/TFYSwiftEasyCenterManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
