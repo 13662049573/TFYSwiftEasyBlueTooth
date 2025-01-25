@@ -17,7 +17,7 @@ TFYSwiftEasyBlueTooth 是一个基于 CoreBluetooth 的 Swift 蓝牙框架，提
 - 支持设备状态监听
 - 支持 RSSI 信号强度读取
 - 完整的错误处理机制
-- 支持 iOS 13.0+
+- 支持 iOS 15.0+
 - Swift 5.0+ 
 
 ## 安装
@@ -127,7 +127,7 @@ manager.bluetoothStateChanged = { peripheral, state in
 
 ## 要求
 
-- iOS 13.0+
+- iOS 15.0+
 - Swift 5.0+
 - Xcode 12.0+
 
