@@ -35,8 +35,10 @@ class TFYSwiftDetailOperationController: UIViewController {
         view.addSubview(tableView)
         
         if data != nil {
-            kvoToken = data?.observe(\.notifyDataArray, options: .new, changeHandler: { charac, change in
-                self.tableView.reloadData()
+            kvoToken = data?.observe(\.notifyDataArray, options: .new, changeHandler: { [weak self] charac, change in
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
             })
         }
     }
@@ -49,8 +51,8 @@ class TFYSwiftDetailOperationController: UIViewController {
     var data:TFYSwiftEasyCharacteristic? {
         didSet {
             let charcter = data
-            if charcter != nil {
-                self.dataArray = (charcter?.propertiesString.components(separatedBy: " "))!
+            if let charcter = charcter {
+                self.dataArray = (charcter.propertiesString.components(separatedBy: " "))
                 self.tableView.reloadData()
             }
         }
@@ -72,16 +74,16 @@ extension TFYSwiftDetailOperationController: UITableViewDelegate,UITableViewData
         if section < dataArray.count {
             let tempString:String = dataArray[section]
             if tempString.contains("Write,WithoutResponse") {
-                return (self.data?.writeDataArray.count)! + 1
+                return (self.data?.writeDataArray.count ?? 0) + 1
             } else if tempString.contains("Read") {
-                return (self.data?.readDataArray.count)! + 1
+                return (self.data?.readDataArray.count ?? 0) + 1
             } else if tempString.contains("Notify,indicate") {
-                return (self.data?.notifyDataArray.count)! + 1
+                return (self.data?.notifyDataArray.count ?? 0) + 1
             } else {
                 return 0
             }
         } else if section == dataArray.count {
-            return (self.data?.descriptorArray.count)!
+            return (self.data?.descriptorArray.count ?? 0)
         } else {
             return dataArray.count
         }
@@ -101,19 +103,22 @@ extension TFYSwiftDetailOperationController: UITableViewDelegate,UITableViewData
             if indexPath.row == 0 {
                 (cell as! TFYSwiftDetailOperationCell).title = "\(tempString) 新的价值"
                 if tempString.contains("Notify") {
-                    (cell as! TFYSwiftDetailOperationCell).title = "\((self.data?.isNotifying)! ? "停止通知" : "点击开始通知")"
+                    (cell as! TFYSwiftDetailOperationCell).title = "\((self.data?.isNotifying ?? false) ? "停止通知" : "点击开始通知")"
                 }
             } else {
                 if tempString.contains("Write,WithoutResponse") {
-                    (cell as! TFYSwiftDetailOperationCell).title = (self.data?.writeDataArray[indexPath.row-1].bluehexString())!
+                    guard let data = self.data?.writeDataArray[indexPath.row-1] else { return cell! }
+                    (cell as! TFYSwiftDetailOperationCell).title = data.bluehexString()
                 } else if tempString.contains("Read") {
-                    (cell as! TFYSwiftDetailOperationCell).title = (self.data?.readDataArray[indexPath.row-1].bluehexString())!
+                    guard let data = self.data?.readDataArray[indexPath.row-1] else { return cell! }
+                    (cell as! TFYSwiftDetailOperationCell).title = data.bluehexString()
                 } else if tempString.contains("Notify,indicate") {
-                    (cell as! TFYSwiftDetailOperationCell).title = (self.data?.notifyDataArray[indexPath.row-1].bluehexString())!
+                    guard let data = self.data?.notifyDataArray[indexPath.row-1] else { return cell! }
+                    (cell as! TFYSwiftDetailOperationCell).title = data.bluehexString()
                 }
             }
         } else if indexPath.section == dataArray.count {
-            let tempD:TFYSwiftEasyDescriptor = (self.data?.descriptorArray[indexPath.row])!
+            guard let tempD = self.data?.descriptorArray[indexPath.row] else { return cell! }
             (cell as! TFYSwiftDetailOperationCell).title = "\(tempD.UUID?.uuidString ?? "")"
         } else {
             (cell as! TFYSwiftDetailOperationCell).title = dataArray[indexPath.row]
@@ -145,16 +150,19 @@ extension TFYSwiftDetailOperationController: UITableViewDelegate,UITableViewData
             if tempString.contains("Write,WithoutResponse") {
                 let alert:UIAlertController = UIAlertController(title: "提示", message: "输入文字", preferredStyle: .alert)
                 let action:UIAlertAction = UIAlertAction(title: "取消", style: .cancel)
-                let action2:UIAlertAction = UIAlertAction(title: "确定", style: .default) { action in
+                let action2:UIAlertAction = UIAlertAction(title: "确定", style: .default) { [weak self] action in
+                    guard let self = self else { return }
                     if !(self.currentField.text?.isEmpty ?? false) {
                         let data:Data? = self.currentField.text?.blueheadecimal()
                         self.data?.writeValueWithData(data: data, callback: { characteristic, data, error in
-                            if data != nil {
-                                let string:String = data!.bluehexString()
+                            if let data = data {
+                                let string:String = data.bluehexString()
                                 print("Write/WithoutResponse====:\(string)")
                             }
+                            DispatchQueue.main.async {
+                                tableView.reloadData()
+                            }
                         })
-                        tableView.reloadData()
                     }
                 }
                 alert.addTextField { text in
@@ -166,19 +174,23 @@ extension TFYSwiftDetailOperationController: UITableViewDelegate,UITableViewData
                 self.present(alert, animated: true)
             } else if tempString.contains("Read") {
                 self.data?.readValueWithCallback(callback: { characteristic, data, error in
-                    if data != nil {
-                        let string:String = data!.bluehexString()
+                    if let data = data {
+                        let string:String = data.bluehexString()
                         print("Read===:\(string)")
                     }
-                    tableView.reloadData()
+                    DispatchQueue.main.async {
+                        tableView.reloadData()
+                    }
                 })
             } else if tempString.contains("Notify,indicate"){
-                self.data?.notifyWithValue(value: (self.data?.isNotifying)!, callback: { characteristic, data, error in
-                    if data != nil {
-                        let string:String = data!.bluehexString()
+                self.data?.notifyWithValue(value: (self.data?.isNotifying ?? false), callback: { characteristic, data, error in
+                    if let data = data {
+                        let string:String = data.bluehexString()
                         print("Notify/Indicate==:\(string)")
                     }
-                    tableView.reloadData()
+                    DispatchQueue.main.async {
+                        tableView.reloadData()
+                    }
                 })
             }
         }

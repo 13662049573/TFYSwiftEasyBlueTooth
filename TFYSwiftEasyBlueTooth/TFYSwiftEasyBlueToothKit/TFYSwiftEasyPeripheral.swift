@@ -41,17 +41,19 @@ public class TFYSwiftEasyPeripheral: NSObject {
     
     /// 设备名称
     var name: String? {
-        var localName:String? = self.peripheral?.name
-        if localName != nil {
-            localName = localName!
-        } else {
-            localName = "无名称"
+        guard let localName = self.peripheral?.name else {
+            return "无名称"
         }
         return localName
     }
     
     /// 设备的唯一ID
-    var identifier: UUID { self.peripheral!.identifier }
+    var identifier: UUID { 
+        guard let peripheral = self.peripheral else {
+            return UUID()
+        }
+        return peripheral.identifier 
+    }
     
     var identifierString:String? { self.peripheral?.identifier.uuidString }
     
@@ -62,8 +64,9 @@ public class TFYSwiftEasyPeripheral: NSObject {
     var deviceScanCount:Int = 0 {
         didSet {
             TFYSwiftAsynce.async { [weak self] in
-                NSObject.cancelPreviousPerformRequests(withTarget: self!, selector: #selector(self?.devicenotFoundTimeout), object: nil)
-                self?.perform(#selector(self?.devicenotFoundTimeout), with: self, afterDelay: 5)
+                guard let self = self else { return }
+                NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.devicenotFoundTimeout), object: nil)
+                self.perform(#selector(self.devicenotFoundTimeout), with: self, afterDelay: 5)
             }
         }
     }
@@ -76,15 +79,15 @@ public class TFYSwiftEasyPeripheral: NSObject {
     
     /// 当前是否连接成功
     var isConnected: Bool {
-        var connect:Bool = false
-        if self.peripheral?.state == .connected {
-            connect = true
-        }
-        return connect
+        guard let peripheral = self.peripheral else { return false }
+        return peripheral.state == .connected
     }
     
     /// 当前设备状态
-    var state:CBPeripheralState { CBPeripheralState(rawValue: (self.peripheral?.state)!.rawValue)! }
+    var state:CBPeripheralState { 
+        guard let peripheral = self.peripheral else { return .disconnected }
+        return peripheral.state 
+    }
     
     /// 当前设备的错误信息
     var connectErrorDescription:Error?
@@ -95,6 +98,8 @@ public class TFYSwiftEasyPeripheral: NSObject {
     /// 连接设备回调
     var connectCallback:blueToothConnectDeviceCallback?
     
+    /// 连接超时定时器
+    private var connectTimer:DispatchWorkItem?
     
     init(peripheral:CBPeripheral,manager:TFYSwiftEasyCenterManager) {
         super.init()
@@ -103,7 +108,7 @@ public class TFYSwiftEasyPeripheral: NSObject {
         self.peripheral = peripheral
         peripheral.delegate = self
         
-        self.connectTimeOut? = 5
+        self.connectTimeOut = 5
         self.isReconnectDevice = true
         
         self.perform(#selector(self.devicenotFoundTimeout), with: self, afterDelay: 5)
@@ -128,8 +133,8 @@ public class TFYSwiftEasyPeripheral: NSObject {
         self.centerManager?.manager.connect(self.peripheral!, options: options)
         
         //如果设定的时间内系统没有回调连接的结果。直接返回错误信息
-        TFYSwiftAsynce.asyncDelay(Double(self.connectTimeOut!)) {
-        } _: {
+        connectTimer = TFYSwiftAsynce.asyncDelay(Double(self.connectTimeOut!)) { [weak self] in
+            guard let self = self else { return }
             if !self.isReconnectDevice {
                 return
             }
@@ -140,7 +145,6 @@ public class TFYSwiftEasyPeripheral: NSObject {
             self.isReconnectDevice = false
             self.disconnectDevice()
         }
-
     }
     
     /// 如果设备失去连接，调用此方法 再次连接设备(会保留上一次调用的参数)
@@ -151,6 +155,12 @@ public class TFYSwiftEasyPeripheral: NSObject {
     
     /// 主动断开设备连接，（不会回调设备失去连接的方法）
     func disconnectDevice() {
+        // 取消连接超时定时器
+        if let timer = connectTimer {
+            TFYSwiftAsynce.cancelDelay(timer)
+            connectTimer = nil
+        }
+        
         if self.state == .connected {
             self.centerManager?.manager.cancelPeripheralConnection(self.peripheral!)
         }
@@ -178,6 +188,12 @@ public class TFYSwiftEasyPeripheral: NSObject {
     
     /// 处理manager连接设备的结果。
     func dealDeviceConnectWithError(error:Error?,type:deviceConnectType) {
+        // 取消连接超时定时器
+        if let timer = connectTimer {
+            TFYSwiftAsynce.cancelDelay(timer)
+            connectTimer = nil
+        }
+        
         self.isReconnectDevice = false
         if connectCallback != nil {
             connectCallback!(self,error,type)
@@ -186,9 +202,10 @@ public class TFYSwiftEasyPeripheral: NSObject {
     
     /// 设备中所有的服务
     func searchServiceWithService(service:CBService?) -> TFYSwiftEasyService? {
+        guard let service = service else { return nil }
         var tempService:TFYSwiftEasyService?
         for (_,tempS) in self.serviceArray.enumerated() {
-            if tempS.UUID.isEqual(service?.uuid) {
+            if tempS.UUID.isEqual(service.uuid) {
                 tempService = tempS
                 break
             }
@@ -219,7 +236,7 @@ public class TFYSwiftEasyPeripheral: NSObject {
         if isAllUUIDExited {
             if self.findServiceCallbackArray.count > 0 {
                 let callback:blueToothFindServiceCallback? = self.findServiceCallbackArray.first
-                callback!(self,self.serviceArray,nil)
+                callback?(self,self.serviceArray,nil)
                 self.findServiceCallbackArray.remove(at: 0)
             }
         } else {
@@ -228,12 +245,14 @@ public class TFYSwiftEasyPeripheral: NSObject {
         }
     }
     
-    
     deinit {
+        disconnectDevice()
         self.peripheral = nil
         self.peripheral?.delegate = nil
+        self.centerManager = nil
+        self.findServiceCallbackArray.removeAll()
+        self.serviceArray.removeAll()
     }
-
 }
 
 extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
@@ -243,7 +262,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
         print("uuidString:\(peripheral.identifier.uuidString)=设备的rssi读取:\(RSSI)==error:\(String(describing: error))")
         self.RSSI = RSSI
         if self.blueToothReadRSSICallback != nil {
-            self.blueToothReadRSSICallback!(self,RSSI,error!)
+            self.blueToothReadRSSICallback!(self,RSSI,error)
         }
     }
     
@@ -264,7 +283,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
         })
         if self.findServiceCallbackArray.count > 0 {
             let callback:blueToothFindServiceCallback? = self.findServiceCallbackArray.first
-            callback!(self,self.serviceArray,error)
+            callback?(self,self.serviceArray,error)
             self.findServiceCallbackArray.remove(at: 0)
         }
     }
@@ -300,7 +319,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
         let tempService:TFYSwiftEasyService? = self.searchServiceWithService(service: characteristic.service)
         if tempService != nil {
             let character:TFYSwiftEasyCharacteristic? = tempService!.searchCharacteristciWithCharacteristic(characteristic: characteristic)
-            if (character?.isNotifying)! {
+            if (character?.isNotifying ?? false) {
                 character?.dealOperationCharacterWithType(type: .OperationTypeNotify, error: error)
             } else {
                 character?.dealOperationCharacterWithType(type: .OperationTypeRead, error: error)
@@ -343,7 +362,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
         self.serviceArray.forEach({ tempS in
             tempS.characteristicArray.forEach({ tempC in
                 tempC.descriptorArray.forEach { tempD in
-                    if ((tempD.descroptor?.isEqual(descriptor)) != nil) {
+                    if tempD.descroptor?.isEqual(descriptor) == true {
                         tempD.dealOperationDescriptorWithType(type: .OperationTypeRead, eroor: error)
                         return
                     }
@@ -357,7 +376,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
         self.serviceArray.forEach({ tempS in
             tempS.characteristicArray.forEach({ tempC in
                 tempC.descriptorArray.forEach { tempD in
-                    if ((tempD.descroptor?.isEqual(descriptor)) != nil) {
+                    if tempD.descroptor?.isEqual(descriptor) == true {
                         tempD.dealOperationDescriptorWithType(type: .OperationTypeWrite, eroor: error)
                     }
                 }

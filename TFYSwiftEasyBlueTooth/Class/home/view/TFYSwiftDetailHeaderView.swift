@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreBluetooth
 
 class TFYSwiftDetailHeaderView: UIView {
     private let width_w:CGFloat = UIScreen.main.bounds.width
@@ -48,18 +49,6 @@ class TFYSwiftDetailHeaderView: UIView {
         nameLabel.frame = CGRect(x: 10, y: 10, width: width_w-20, height: 20)
         uuidLabel.frame = CGRect(x: 10, y: 35, width: width_w-20, height: 20)
         stateLabel.frame = CGRect(x: 10, y: 65, width: width_w-20, height: 20)
-        
-//        if data?.peripheral != nil {
-//            kvoToken = data?.peripheral?.observe(\.state, options: .new, changeHandler: { per, change in
-//                if per.state == .disconnected {
-//                    TFYSwiftDetailHeaderView().stateLabel.textColor = .red
-//                    TFYSwiftDetailHeaderView().stateLabel.text = "设备失去连接..."
-//                } else {
-//                    TFYSwiftDetailHeaderView().stateLabel.textColor = .black
-//                    TFYSwiftDetailHeaderView().stateLabel.text = "设备已连接"
-//                }
-//            })
-//        }
     }
     
     required init?(coder: NSCoder) {
@@ -69,22 +58,44 @@ class TFYSwiftDetailHeaderView: UIView {
     var peripheral:TFYSwiftEasyPeripheral? {
         didSet {
             let data = peripheral
-            if data != nil {
+            if let data = data {
                 self.data = data
                 
-                self.nameLabel.text = data?.name
-                self.uuidLabel.text = "UUID:\(data?.identifier.uuidString ?? "")"
-                if data?.state == .connected {
-                    self.stateLabel.text = "已连接"
-                } else if data?.state == .disconnected {
-                    self.stateLabel.text = "已断开连接"
+                self.nameLabel.text = data.name
+                self.uuidLabel.text = "UUID:\(data.identifier.uuidString)"
+                updateConnectionState(data.state)
+                
+                // 监听连接状态变化
+                kvoToken = data.peripheral?.observe(\.state, options: .new) { [weak self] per, change in
+                    DispatchQueue.main.async {
+                        self?.updateConnectionState(per.state)
+                    }
                 }
             }
+        }
+    }
+    
+    private func updateConnectionState(_ state: CBPeripheralState) {
+        switch state {
+        case .connected:
+            self.stateLabel.textColor = .green
+            self.stateLabel.text = "已连接"
+        case .disconnected:
+            self.stateLabel.textColor = .red
+            self.stateLabel.text = "已断开连接"
+        case .connecting:
+            self.stateLabel.textColor = .orange
+            self.stateLabel.text = "连接中..."
+        case .disconnecting:
+            self.stateLabel.textColor = .orange
+            self.stateLabel.text = "断开中..."
+        @unknown default:
+            self.stateLabel.textColor = .gray
+            self.stateLabel.text = "未知状态"
         }
     }
     
     deinit {
         kvoToken?.invalidate()
     }
-
 }

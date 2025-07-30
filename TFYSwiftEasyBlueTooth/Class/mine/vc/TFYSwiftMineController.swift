@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TFYProgressSwiftHUD
 
 class TFYSwiftMineController: UIViewController {
 
@@ -33,7 +34,7 @@ class TFYSwiftMineController: UIViewController {
         return manage
     }()
     
-    private var dataArray:[String] = ["指定名称连接设备","一行代码连接设备","条件扫描设备名称"]
+    private var dataArray:[String] = ["指定名称连接设备","一行代码连接设备","条件扫描设备名称","蓝牙状态检查"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +48,10 @@ class TFYSwiftMineController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+    }
+    
+    deinit {
+        bleManager.disconnectAllPeripheral()
     }
 }
 
@@ -69,20 +74,28 @@ extension TFYSwiftMineController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 0 {
+        
+        switch indexPath.row {
+        case 0:
             let vc:TFYSwiftExampleScanNameController = TFYSwiftExampleScanNameController()
             vc.hidesBottomBarWhenPushed = true
             vc.bleManager = bleManager
             self.navigationController?.pushViewController(vc, animated: true)
-        } else if indexPath.row == 1 {
+            
+        case 1:
             self.bleManager.connectDeviceWithIdentifier(identifier: "5E40E1BC-732E-042E-7C56-9F89D59FB0E8") { peripheral, error in
-                print("连接成功设备==============name:\(String(describing: peripheral?.name))")
+                if let peripheral = peripheral {
+                    print("连接成功设备==============name:\(String(describing: peripheral.name))")
+                } else if let error = error {
+                    print("连接失败: \(error.localizedDescription)")
+                }
             }
-        } else if indexPath.row == 2 {
+            
+        case 2:
             self.bleManager.scanAllDeviceWithRule { peripheral in
                 var namebool:Bool = false
-                if peripheral.name != nil {
-                    if peripheral.name!.hasPrefix("BLE-") {
+                if let name = peripheral.name {
+                    if name.hasPrefix("BLE-") {
                         namebool = true
                     }
                 }
@@ -93,7 +106,27 @@ extension TFYSwiftMineController: UITableViewDelegate,UITableViewDataSource {
                 }
                 print("deviceArray=====\(deviceArray.count)")
             }
+            
+        case 3:
+            checkBluetoothStatus()
+            
+        default:
+            break
         }
     }
     
+    private func checkBluetoothStatus() {
+        let isAvailable = TFYBluetoothUtils.isBluetoothAvailable()
+        let stateDescription = TFYBluetoothUtils.getBluetoothStateDescription()
+        
+        let alert = UIAlertController(title: "蓝牙状态", message: """
+            蓝牙可用: \(isAvailable ? "是" : "否")
+            状态: \(stateDescription)
+            """, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "确定", style: .default)
+        alert.addAction(okAction)
+        
+        present(alert, animated: true)
+    }
 }

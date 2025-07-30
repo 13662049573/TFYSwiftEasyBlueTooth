@@ -47,8 +47,16 @@ public class TFYSwiftEasyDescriptor: NSObject {
             self.writeCallback = callback
         }
         if data != nil {
+            if self.writeDataArray == nil {
+                self.writeDataArray = []
+            }
             self.writeDataArray?.append(data!)
-            self.peripheral?.peripheral?.writeValue(data!, for: self.descroptor!)
+            guard let peripheral = self.peripheral?.peripheral, let descriptor = self.descroptor else {
+                let error = NSError(domain: "设备或描述为空", code: -1, userInfo: nil)
+                callback?(self, error)
+                return
+            }
+            peripheral.writeValue(data!, for: descriptor)
         }
     }
     /// 在描述上的读写操作
@@ -56,7 +64,12 @@ public class TFYSwiftEasyDescriptor: NSObject {
         if callback != nil {
             self.readCallback = callback
         }
-        self.peripheral?.peripheral?.readValue(for: self.descroptor!)
+        guard let peripheral = self.peripheral?.peripheral, let descriptor = self.descroptor else {
+            let error = NSError(domain: "设备或描述为空", code: -1, userInfo: nil)
+            callback?(self, error)
+            return
+        }
+        peripheral.readValue(for: descriptor)
     }
     
     /// 处理 easyPeripheral操作完的回到
@@ -73,5 +86,12 @@ public class TFYSwiftEasyDescriptor: NSObject {
         default:
             break
         }
+    }
+    
+    deinit {
+        self.descroptor = nil
+        self.peripheral = nil
+        self.readDataArray = nil
+        self.writeDataArray = nil
     }
 }
