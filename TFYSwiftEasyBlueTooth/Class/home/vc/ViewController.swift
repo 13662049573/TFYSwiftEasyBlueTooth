@@ -57,20 +57,29 @@ class ViewController: UIViewController {
     
     // 搜索蓝牙数据
     func blueLayouData() {
-        centerManager.scanDeviceWithTimeInterval(timeInterval: 20) { peripheral, searchType in
-            if peripheral != nil {
+        centerManager.scanDeviceWithTimeInterval(timeInterval: 20) { [weak self] peripheral, searchType in
+            guard let self = self else { return }
+            
+            if let peripheral = peripheral {
                 if searchType == .searchFlagTypeAdded {
-                    if !self.dataArray.contains(peripheral!) {
-                        self.dataArray.append(peripheral!)
+                    if !self.dataArray.contains(peripheral) {
+                        self.dataArray.append(peripheral)
                     }
                 } else if searchType == .searchFlagTypeDisconnect || searchType == .searchFlagTypeDelete {
-                    if !self.dataArray.contains(peripheral!) {
-                        self.dataArray.append(peripheral!)
+                    if !self.dataArray.contains(peripheral) {
+                        self.dataArray.append(peripheral)
                     }
                 }
-                self.tableView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
         }
+    }
+    
+    deinit {
+        centerManager.stopScanDevice()
     }
 }
 
@@ -99,6 +108,7 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.centerManager.stopScanDevice()
         let data:TFYSwiftEasyPeripheral = self.dataArray[indexPath.row]
+        
         if data.state == .connected {
             let vc:TFYSwiftDetailViewController = TFYSwiftDetailViewController()
             vc.data = data
@@ -106,30 +116,37 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
             TFYProgressSwiftHUD.show()
-            data.connectDeviceWithTimeOut { perpheral, error, type in
-                TFYProgressSwiftHUD.dismiss()
-                if type == .deviceConnectTypeDisConnect {
-                    let aler:UIAlertController = UIAlertController(title: "设备失去连接", message: error!.localizedDescription, preferredStyle: .alert)
-                    let alerAction:UIAlertAction = UIAlertAction(title: "重新连接", style: .default) { action in
-                        data.reconnectDevice()
-                    }
-                    let alerAction2:UIAlertAction = UIAlertAction(title: "取消", style: .cancel) { action in
-                        aler.dismiss(animated: true)
-                    }
-                    aler.addAction(alerAction)
-                    aler.addAction(alerAction2)
-                    self.present(aler, animated: true)
-                } else {
-                    TFYSwiftAsynce.async {
-                    } _: {
+            data.connectDeviceWithTimeOut { [weak self] perpheral, error, type in
+                DispatchQueue.main.async {
+                    TFYProgressSwiftHUD.dismiss()
+                    
+                    switch type {
+                    case .deviceConnectTypeDisConnect:
+                        let aler:UIAlertController = UIAlertController(title: "设备失去连接", message: error?.localizedDescription ?? "连接失败", preferredStyle: .alert)
+                        let alerAction:UIAlertAction = UIAlertAction(title: "重新连接", style: .default) { action in
+                            data.reconnectDevice()
+                        }
+                        let alerAction2:UIAlertAction = UIAlertAction(title: "取消", style: .cancel) { action in
+                            aler.dismiss(animated: true)
+                        }
+                        aler.addAction(alerAction)
+                        aler.addAction(alerAction2)
+                        self?.present(aler, animated: true)
+                        
+                    case .deviceConnectTypeSuccess:
                         let vc:TFYSwiftDetailViewController = TFYSwiftDetailViewController()
                         vc.data = data
                         vc.hidesBottomBarWhenPushed = true
-                        self.navigationController?.pushViewController(vc, animated: true)
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                        
+                    case .deviceConnectTypeFaild, .deviceConnectTypeFaildTimeout:
+                        let aler:UIAlertController = UIAlertController(title: "连接失败", message: error?.localizedDescription ?? "连接失败", preferredStyle: .alert)
+                        let alerAction:UIAlertAction = UIAlertAction(title: "确定", style: .default)
+                        aler.addAction(alerAction)
+                        self?.present(aler, animated: true)
                     }
                 }
             }
         }
     }
-    
 }

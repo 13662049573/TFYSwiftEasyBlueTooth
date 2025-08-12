@@ -50,12 +50,19 @@ class TFYSwiftDetailViewController: UIViewController {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if exitBreakUp {
+            peripheral?.disconnectDevice()
+        }
+    }
 
     var data:TFYSwiftEasyPeripheral? {
         didSet {
             let peripheral = data
-            if peripheral != nil {
-                peripheral!.advertisementData.keys.forEach { idstring in
+            if let peripheral = peripheral {
+                peripheral.advertisementData.keys.forEach { idstring in
                     advertisementArray.append(idstring)
                 }
                 self.peripheral = peripheral
@@ -66,7 +73,9 @@ class TFYSwiftDetailViewController: UIViewController {
     
     func blueLayoueData() {
         TFYProgressSwiftHUD.show()
-        self.peripheral?.discoverAllDeviceServiceWithCallback(callback: { peripheral, serviceArray, error in
+        self.peripheral?.discoverAllDeviceServiceWithCallback(callback: { [weak self] peripheral, serviceArray, error in
+            guard let self = self else { return }
+            
             serviceArray.forEach { tempS in
                 tempS.discoverCharacteristicWithCharacteristicUUIDs { characteristics, error in
                     characteristics.forEach { tempC in
@@ -80,8 +89,7 @@ class TFYSwiftDetailViewController: UIViewController {
                                         print("获取数据===value：\(String(describing: descriptor.value))----error：\(String(describing: error))")
                                     }
                                 }
-                                TFYSwiftAsynce.async {
-                                } _: {
+                                DispatchQueue.main.async {
                                     self.tableView.reloadData()
                                     TFYProgressSwiftHUD.dismiss()
                                 }
@@ -103,21 +111,27 @@ class TFYSwiftDetailViewController: UIViewController {
             item.title = "退出断开连接"
         }
     }
+    
+    deinit {
+        if exitBreakUp {
+            peripheral?.disconnectDevice()
+        }
+    }
 }
 
 extension TFYSwiftDetailViewController:UITableViewDelegate,UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return ((self.peripheral?.serviceArray.count)! + 1)
+        return ((self.peripheral?.serviceArray.count ?? 0) + 1)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section != 0) {
-            let tempService:TFYSwiftEasyService = (self.peripheral?.serviceArray[section-1])!
+            guard let tempService = self.peripheral?.serviceArray[section-1] else { return 0 }
             return tempService.characteristicArray.count
         }
         if (isShowfirstSection != 0) {
-            return (self.peripheral?.advertisementData.count)!
+            return (self.peripheral?.advertisementData.count ?? 0)
         }
         return 0
     }
@@ -130,7 +144,7 @@ extension TFYSwiftDetailViewController:UITableViewDelegate,UITableViewDataSource
         let herherView:TFYSwiftDetailHeaderFooterView = TFYSwiftDetailHeaderFooterView()
         var serviceName:String = "广告数据"
         if section != 0 {
-            let tempS:TFYSwiftEasyService = (self.peripheral?.serviceArray[section-1])!
+            guard let tempS = self.peripheral?.serviceArray[section-1] else { return herherView }
             serviceName = tempS.name
         }
         herherView.serviceName = serviceName
@@ -152,10 +166,12 @@ extension TFYSwiftDetailViewController:UITableViewDelegate,UITableViewDataSource
             cell = TFYSwiftDetailOneTableViewCell(style: .subtitle, reuseIdentifier: withIdentifier)
         }
         if indexPath.section != 0 {
-            let tempS:TFYSwiftEasyService = (self.peripheral?.serviceArray[indexPath.section-1])!
+            guard let tempS = self.peripheral?.serviceArray[indexPath.section-1],
+                  indexPath.row < tempS.characteristicArray.count else { return cell! }
             let tempC:TFYSwiftEasyCharacteristic = tempS.characteristicArray[indexPath.row]
             (cell as! TFYSwiftDetailOneTableViewCell).data = tempC
         } else {
+            guard indexPath.row < self.advertisementArray.count else { return cell! }
             (cell as! TFYSwiftDetailOneTableViewCell).titleString = self.advertisementArray[indexPath.row]
             let title:Any = self.advertisementArray[indexPath.row]
             var allString:String = ""
@@ -175,12 +191,12 @@ extension TFYSwiftDetailViewController:UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section != 0 {
-            let tempS:TFYSwiftEasyService = (self.peripheral?.serviceArray[indexPath.section-1])!
+            guard let tempS = self.peripheral?.serviceArray[indexPath.section-1],
+                  indexPath.row < tempS.characteristicArray.count else { return }
             let tempC:TFYSwiftEasyCharacteristic = tempS.characteristicArray[indexPath.row]
             let vc:TFYSwiftDetailOperationController = TFYSwiftDetailOperationController()
             vc.data = tempC
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
 }

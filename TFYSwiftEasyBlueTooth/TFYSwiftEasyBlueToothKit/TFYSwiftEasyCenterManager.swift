@@ -25,6 +25,10 @@ public class TFYSwiftEasyCenterManager: NSObject {
     private var scanOptionsDictionary:[String:Any]? = [CBCentralManagerScanOptionAllowDuplicatesKey:true]
     private var blueToothSearchDeviceCallback:blueToothSearchDeviceCallback?
     private var peripheral:TFYSwiftEasyPeripheral?
+    
+    // 添加线程安全保护
+    private let deviceQueue = DispatchQueue(label: "com.tfy.bluetooth.device", attributes: .concurrent)
+    
     /// 搜索到设备的回到，只要系统搜索到设备，都会回调这个block
     typealias blueToothSearchDeviceCallback = (_ peripheral:TFYSwiftEasyPeripheral?,_ searchType:searchFlagType) -> Void
     /// 系统蓝牙状态改变
@@ -40,10 +44,24 @@ public class TFYSwiftEasyCenterManager: NSObject {
     var isScanning:Bool = false
     
     /// 已经连接上的设备 key:设备的identifier value:连接上的设备
-    var connectedDeviceDict:[String:Any] = [String:Any]()
+    var connectedDeviceDict:[String:Any] = [String:Any]() {
+        didSet {
+            // 设备连接状态变化通知
+            deviceQueue.async(flags: .barrier) { [weak self] in
+                self?.notifyDeviceConnectionStateChanged()
+            }
+        }
+    }
     
     /// 已经发现的设备 key:设备的identifier value:连接上的设备 (已经去掉了重复的设备)
-    var foundDeviceDict:[String:Any] = [String:Any]()
+    var foundDeviceDict:[String:Any] = [String:Any]() {
+        didSet {
+            // 设备发现状态变化通知
+            deviceQueue.async(flags: .barrier) { [weak self] in
+                self?.notifyDeviceDiscoveryStateChanged()
+            }
+        }
+    }
     
     /// queue 为manager运行的线程，传空就是在主线程上
     init(queue:DispatchQueue?,options:[String:Any]? = [String:Any]()) {
@@ -54,7 +72,7 @@ public class TFYSwiftEasyCenterManager: NSObject {
     
     /// 扫描周围设备
     func startScanDevice() {
-        self.scanDeviceWithTimeInterval(callBack: self.blueToothSearchDeviceCallback)
+        self.scanDeviceWithTimeCallback(callBack: self.blueToothSearchDeviceCallback)
     }
     
     func scanDeviceWithTimeCallback(callBack:blueToothSearchDeviceCallback?) {
@@ -99,15 +117,18 @@ public class TFYSwiftEasyCenterManager: NSObject {
         
         //指定时间通知外部，扫描完成
         TFYSwiftAsynce.asyncDelay(Double(timeInterval!)) { [weak self] in
-            self!.isScanning = false
-            if self!.manager.isScanning && self!.blueToothSearchDeviceCallback != nil {
-                self!.stopScanDevice()
-                self!.blueToothSearchDeviceCallback!(self!.peripheral,.searchFlagTypeFinish)
+            guard let self = self else { return }
+            self.isScanning = false
+            if self.manager.isScanning && self.blueToothSearchDeviceCallback != nil {
+                self.stopScanDevice()
+                self.blueToothSearchDeviceCallback!(self.peripheral,.searchFlagTypeFinish)
                 print("描述结束----\(timeInterval!)")
             }
             
-            self?.foundDeviceDict.values.forEach({ tempP in
-                NSObject.cancelPreviousPerformRequests(withTarget: tempP, selector: #selector(self?.peripheral?.devicenotFoundTimeout), object: nil)
+            self.foundDeviceDict.values.forEach({ tempP in
+                if let peripheral = tempP as? TFYSwiftEasyPeripheral {
+                    NSObject.cancelPreviousPerformRequests(withTarget: peripheral, selector: #selector(peripheral.devicenotFoundTimeout), object: nil)
+                }
             })
         }
     }
@@ -128,8 +149,9 @@ public class TFYSwiftEasyCenterManager: NSObject {
     /// 断开所有连接的设备
     func disConnectAllDevice() {
         self.connectedDeviceDict.values.forEach { tempPeripheral in
-            let temp:TFYSwiftEasyPeripheral = tempPeripheral as! TFYSwiftEasyPeripheral
-            temp.disconnectDevice()
+            if let temp = tempPeripheral as? TFYSwiftEasyPeripheral {
+                temp.disconnectDevice()
+            }
         }
     }
     
@@ -169,45 +191,61 @@ public class TFYSwiftEasyCenterManager: NSObject {
     }
     
     /// 寻找当前连接的设备
-    func searchDeviceWithPeripheral(peripheral:CBPeripheral) -> TFYSwiftEasyPeripheral {
+    func searchDeviceWithPeripheral(peripheral:CBPeripheral) -> TFYSwiftEasyPeripheral? {
         var result:TFYSwiftEasyPeripheral?
         self.connectedDeviceDict.values.forEach { tempPeripheral in
-            let temp:TFYSwiftEasyPeripheral = tempPeripheral as! TFYSwiftEasyPeripheral
-            if ((temp.peripheral?.isEqual(peripheral)) != nil) {
-                result = temp
+            if let temp = tempPeripheral as? TFYSwiftEasyPeripheral {
+                if temp.peripheral?.isEqual(peripheral) == true {
+                    result = temp
+                }
             }
         }
-        return result!
+        return result
     }
     
     /// 回去已经连接上的设备
     func retrievePeripheralsWithIdentifiers(identifiers:[UUID]) -> [TFYSwiftEasyPeripheral]? {
         
         let resultArray:[CBPeripheral]? = self.manager.retrievePeripherals(withIdentifiers: identifiers)
-        var tempArray:[Any] = [Any]()
-        tempArray.append(resultArray as Any)
-        if tempArray.count > 0 {
-            tempArray.forEach({ tempP in
-                let tempPer:TFYSwiftEasyPeripheral = TFYSwiftEasyPeripheral(peripheral: tempP as! CBPeripheral, manager: self)
+        var tempArray:[TFYSwiftEasyPeripheral] = []
+        if let resultArray = resultArray {
+            resultArray.forEach({ tempP in
+                let tempPer:TFYSwiftEasyPeripheral = TFYSwiftEasyPeripheral(peripheral: tempP, manager: self)
                 tempArray.append(tempPer)
             })
         }
-        return (tempArray as! [TFYSwiftEasyPeripheral])
+        return tempArray
     }
     
     func retrieveConnectedPeripheralsWithServices(serviceUUIDS:[CBUUID]?) -> [TFYSwiftEasyPeripheral]? {
         if serviceUUIDS != nil {
             let resultArray:[CBPeripheral] = (self.manager.retrieveConnectedPeripherals(withServices: serviceUUIDS!))
-            var tempArray:[TFYSwiftEasyPeripheral]?
+            var tempArray:[TFYSwiftEasyPeripheral] = []
             if resultArray.count > 0 {
                 resultArray.forEach({ tempP in
                     let tempPer:TFYSwiftEasyPeripheral = TFYSwiftEasyPeripheral(peripheral:tempP, manager: self)
-                    tempArray?.append(tempPer)
+                    tempArray.append(tempPer)
                 })
             }
             return tempArray
         }
         return nil
+    }
+    
+    /// 通知设备连接状态变化
+    private func notifyDeviceConnectionStateChanged() {
+        NotificationCenter.default.post(name: NSNotification.Name("TFYBluetoothDeviceConnectionStateChanged"), object: self.connectedDeviceDict)
+    }
+    
+    /// 通知设备发现状态变化
+    private func notifyDeviceDiscoveryStateChanged() {
+        NotificationCenter.default.post(name: NSNotification.Name("TFYBluetoothDeviceDiscoveryStateChanged"), object: self.foundDeviceDict)
+    }
+    
+    deinit {
+        stopScanDevice()
+        disConnectAllDevice()
+        removeAllScanFoundDevice()
     }
 }
 
@@ -225,7 +263,8 @@ extension TFYSwiftEasyCenterManager:CBCentralManagerDelegate {
         self.centerState = central.state
         if self.centerState == .unsupported {
             let alert:UIAlertController = UIAlertController(title: "提示", message: "此设备不支持BLE4.0,请更换设备", preferredStyle: .alert)
-            UIWindow.bluekeyWindow?.rootViewController = alert
+            alert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+            UIWindow.bluekeyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
         } else if central.state == .poweredOn {
             self.manager = central
             central.scanForPeripherals(withServices: nil, options: nil)
@@ -246,9 +285,10 @@ extension TFYSwiftEasyCenterManager:CBCentralManagerDelegate {
         var existedIndex:Int = -1
         self.foundDeviceDict.keys.forEach { tempIndefy in
             if tempIndefy.contains(peripheral.identifier.uuidString) {
-                let tempP:TFYSwiftEasyPeripheral = self.foundDeviceDict[tempIndefy] as! TFYSwiftEasyPeripheral
-                tempP.deviceScanCount += 1
-                existedIndex = tempP.deviceScanCount
+                if let tempP = self.foundDeviceDict[tempIndefy] as? TFYSwiftEasyPeripheral {
+                    tempP.deviceScanCount += 1
+                    existedIndex = tempP.deviceScanCount
+                }
             }
         }
         
@@ -261,12 +301,13 @@ extension TFYSwiftEasyCenterManager:CBCentralManagerDelegate {
                 self.blueToothSearchDeviceCallback!(easyP,.searchFlagTypeAdded)
             }
         } else if existedIndex%10 == 0 {
-            let tempP:TFYSwiftEasyPeripheral = self.foundDeviceDict[peripheral.identifier.uuidString] as! TFYSwiftEasyPeripheral
-            tempP.RSSI = RSSI
-            tempP.deviceScanCount = 0
-            tempP.advertisementData = advertisementData
-            if self.blueToothSearchDeviceCallback != nil {
-                self.blueToothSearchDeviceCallback!(tempP,.searchFlagTypeChanged)
+            if let tempP = self.foundDeviceDict[peripheral.identifier.uuidString] as? TFYSwiftEasyPeripheral {
+                tempP.RSSI = RSSI
+                tempP.deviceScanCount = 0
+                tempP.advertisementData = advertisementData
+                if self.blueToothSearchDeviceCallback != nil {
+                    self.blueToothSearchDeviceCallback!(tempP,.searchFlagTypeChanged)
+                }
             }
         }
     }
@@ -338,7 +379,7 @@ extension TFYSwiftEasyCenterManager:CBCentralManagerDelegate {
         }
         
         if existedP != nil {
-            existedP?.dealDeviceConnectWithError(error: error!, type: .deviceConnectTypeFaild)
+            existedP?.dealDeviceConnectWithError(error: error, type: .deviceConnectTypeFaild)
         }
     }
     
@@ -376,9 +417,7 @@ extension TFYSwiftEasyCenterManager:CBCentralManagerDelegate {
         if error != nil && existedP != nil {
             existedP?.dealDeviceConnectWithError(error: error!, type: .deviceConnectTypeDisConnect)
         }
-        if existedP != nil {
-            existedP = nil
-        }
+        existedP = nil
     }
     
     

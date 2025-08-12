@@ -40,6 +40,13 @@ public class TFYSwiftEasyManagerOptions: NSObject {
     /// 断开连接后重新连接
     var autoConnectAfterDisconnect:Bool? = true
     
+    /// 默认初始化方法
+    override init() {
+        super.init()
+        setupDefaultOptions()
+    }
+    
+    /// 自定义初始化方法
     init(queue:DispatchQueue?,
          managerDictionary:[String:Any]? = [CBCentralManagerOptionShowPowerAlertKey:true],
          scanOptions:[String:Any]? = [CBCentralManagerScanOptionAllowDuplicatesKey:true],
@@ -54,5 +61,59 @@ public class TFYSwiftEasyManagerOptions: NSObject {
         self.scanOptions = scanOptions
         self.scanServiceArray = scanServiceArray
         self.connectOptions = connectOptions
+        setupDefaultOptions()
+    }
+    
+    /// 设置默认选项
+    private func setupDefaultOptions() {
+        // 确保所有选项都有默认值
+        if self.managerDictionary == nil {
+            self.managerDictionary = [CBCentralManagerOptionShowPowerAlertKey:true]
+        }
+        
+        if self.scanOptions == nil {
+            self.scanOptions = [CBCentralManagerScanOptionAllowDuplicatesKey:true]
+        }
+        
+        if self.connectOptions == nil {
+            self.connectOptions = [
+                CBConnectPeripheralOptionNotifyOnConnectionKey:true,
+                CBConnectPeripheralOptionNotifyOnDisconnectionKey:true,
+                CBConnectPeripheralOptionNotifyOnNotificationKey:true
+            ]
+        }
+        
+        if self.scanTimeOut == nil {
+            self.scanTimeOut = NSIntegerMax
+        }
+        
+        if self.connectTimeOut == nil {
+            self.connectTimeOut = 5
+        }
+        
+        if self.autoConnectAfterDisconnect == nil {
+            self.autoConnectAfterDisconnect = true
+        }
+    }
+    
+    /// 重置为默认配置
+    func resetToDefault() {
+        setupDefaultOptions()
+    }
+    
+    /// 验证配置是否有效
+    func validateOptions() -> Bool {
+        // 检查必要的配置项
+        guard let scanTimeOut = self.scanTimeOut, scanTimeOut > 0 else {
+            print("扫描超时时间必须大于0")
+            return false
+        }
+        
+        guard let connectTimeOut = self.connectTimeOut, connectTimeOut > 0 else {
+            print("连接超时时间必须大于0")
+            return false
+        }
+        
+        return true
     }
 }

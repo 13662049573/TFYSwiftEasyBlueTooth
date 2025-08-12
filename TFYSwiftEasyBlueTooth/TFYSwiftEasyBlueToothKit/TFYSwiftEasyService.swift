@@ -14,15 +14,24 @@ public class TFYSwiftEasyService: NSObject {
     typealias blueToothFindCharacteristicCallback = (_ characteristics:[TFYSwiftEasyCharacteristic] , _ error:Error?) -> Void
     
     /// 服务名称
-    var name: String { self.service!.uuid.uuidString }
+    var name: String { 
+        guard let service = self.service else { return "Unknown Service" }
+        return service.uuid.uuidString 
+    }
     
     ///  系统提供出来的服务
     var service:CBService?
     
-    var includedServices:[CBService] { (self.service?.includedServices)! }
+    var includedServices:[CBService] { 
+        guard let service = self.service else { return [] }
+        return service.includedServices ?? []
+    }
     
     /// 服务的唯一标示
-    var UUID: CBUUID { self.service!.uuid }
+    var UUID: CBUUID { 
+        guard let service = self.service else { return CBUUID() }
+        return service.uuid 
+    }
     
     /// 服务是否是开启状态
     var isOn:Bool = true
@@ -69,7 +78,7 @@ public class TFYSwiftEasyService: NSObject {
         uuidArray.forEach { tempUUID in
             var isExitedUUID:Bool = false //数组里单个需要查找到UUID是否存在
             for (_,tempCharacter) in self.characteristicArray.enumerated() {
-                if tempCharacter.UUID!.isEqual(tempUUID) {
+                if tempCharacter.UUID?.isEqual(tempUUID) == true {
                     isExitedUUID = true
                     break
                 }
@@ -81,13 +90,17 @@ public class TFYSwiftEasyService: NSObject {
         
         if isAllUUIDExited {
             if self.findCharacterCallbackArray.count > 0 {
-                let errror:NSError = NSError()
                 let callback:blueToothFindCharacteristicCallback = self.findCharacterCallbackArray.first!
-                callback(self.characteristicArray,errror)
+                callback(self.characteristicArray,nil)
                 self.findCharacterCallbackArray.remove(at: 0)
             }
         } else {
-            self.peripheral?.peripheral?.discoverCharacteristics(uuidArray, for: self.service!)
+            guard let peripheral = self.peripheral?.peripheral, let service = self.service else {
+                let error = NSError(domain: "设备或服务为空", code: -1, userInfo: nil)
+                callback?([], error)
+                return
+            }
+            peripheral.discoverCharacteristics(uuidArray, for: service)
         }
     }
     
@@ -103,12 +116,18 @@ public class TFYSwiftEasyService: NSObject {
             }
             
             if self.findCharacterCallbackArray.count > 0 {
-                let error:NSError = NSError()
                 let callback:blueToothFindCharacteristicCallback = self.findCharacterCallbackArray.first!
                 callback(self.characteristicArray,error)
                 
                 self.findCharacterCallbackArray.remove(at: 0)
             }
         }
+    }
+    
+    deinit {
+        self.service = nil
+        self.peripheral = nil
+        self.characteristicArray.removeAll()
+        self.findCharacterCallbackArray.removeAll()
     }
 }

@@ -50,7 +50,7 @@ public enum AlertIcon {
     case search
 }
 
-@available(iOS 13.0, *)
+@available(iOS 15.0, *)
 extension AlertIcon {
     var image: UIImage? {
         switch self {
@@ -77,7 +77,7 @@ extension AlertIcon {
     }
 }
 
-@available(iOS 13.0, *)
+@available(iOS 15.0, *)
 public class TFYProgressSwiftHUD: UIView {
     ///基本容器
     private var viewBackground:UIView?
@@ -88,6 +88,7 @@ public class TFYProgressSwiftHUD: UIView {
     private var viewAnimation:UIView?///动画容器
     private var viewAnimatedIcon:UIView?///小图片动画容器
     private var staticImageView:UIImageView?///图片容器
+    private var customView:UIView?///自定义view容器
 
     private var timer:Timer?///定时器
     ///动画类型
@@ -98,11 +99,33 @@ public class TFYProgressSwiftHUD: UIView {
     private var colorStatus = UIColor.white
     private var colorAnimation = UIColor.white
     private var colorProgress = UIColor.white
-
+    
+    ///更新颜色以支持深色模式
+    private func updateColorsForAppearance() {
+        colorBackground = UIColor.systemBackground.withAlphaComponent(0.2)
+        colorHUD = UIColor.systemGray6
+        colorStatus = UIColor.label
+        colorAnimation = UIColor.label
+        colorProgress = UIColor.label
+    }
     ///默认图片设置
     private var fontStatus = UIFont.boldSystemFont(ofSize: 24)
-    private var imageSuccess = UIImage.checkmark.withTintColor(UIColor.systemGreen,renderingMode: .alwaysOriginal)
-    private var imageError = UIImage.remove.withTintColor(UIColor.systemRed,renderingMode: .alwaysOriginal)
+    private var imageSuccess: UIImage = {
+        if #available(iOS 13.0, *) {
+            return UIImage(systemName: "checkmark")?.withTintColor(UIColor.systemGreen, renderingMode: .alwaysOriginal) ?? UIImage()
+        } else {
+            // 为iOS 15+提供默认的checkmark图片
+            return UIImage()
+        }
+    }()
+    private var imageError: UIImage = {
+        if #available(iOS 13.0, *) {
+            return UIImage(systemName: "xmark")?.withTintColor(UIColor.systemRed, renderingMode: .alwaysOriginal) ?? UIImage()
+        } else {
+            // 为iOS 15+提供默认的xmark图片
+            return UIImage()
+        }
+    }()
     ///监听键盘事件
     private let keyboardWillShow    = UIResponder.keyboardWillShowNotification
     private let keyboardWillHide    = UIResponder.keyboardWillHideNotification
@@ -127,19 +150,44 @@ public class TFYProgressSwiftHUD: UIView {
     
     override private init(frame: CGRect) {
         super.init(frame: frame)
+        updateColorsForAppearance()
+        setupAppearanceObserver()
     }
     
-    private func setup(status:String? = nil , progress:CGFloat? = nil, animatedIcon:AnimatedIcon? = nil,staticImage:UIImage? = nil,hide:Bool,interaction:Bool) {
+    private func setupAppearanceObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appearanceDidChange),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func appearanceDidChange() {
+        updateColorsForAppearance()
+    }
+    
+    private func setup(status:String? = nil , progress:CGFloat? = nil, animatedIcon:AnimatedIcon? = nil,staticImage:UIImage? = nil,customView:UIView? = nil,fullScreenCustomView:UIView? = nil,hide:Bool,interaction:Bool) {
+        
+        // 确保在主线程执行
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.setup(status: status, progress: progress, animatedIcon: animatedIcon, staticImage: staticImage, customView: customView, fullScreenCustomView: fullScreenCustomView, hide: hide, interaction: interaction)
+            }
+            return
+        }
         
         setupNotifications()
         setupBackground(interaction)
         setupToolbar()
         setupLabel(status)
     
-        if (progress == nil) && (animatedIcon == nil) && (staticImage == nil) { setupAnimation()                }
-        if (progress != nil) && (animatedIcon == nil) && (staticImage == nil) { setupProgress(progress)            }
-        if (progress == nil) && (animatedIcon != nil) && (staticImage == nil) { setupAnimatedIcon(animatedIcon)    }
-        if (progress == nil) && (animatedIcon == nil) && (staticImage != nil) { setupStaticImage(staticImage)    }
+        if (progress == nil) && (animatedIcon == nil) && (staticImage == nil) && (customView == nil) && (fullScreenCustomView == nil) { setupAnimation()                }
+        if (progress != nil) && (animatedIcon == nil) && (staticImage == nil) && (customView == nil) && (fullScreenCustomView == nil) { setupProgress(progress)            }
+        if (progress == nil) && (animatedIcon != nil) && (staticImage == nil) && (customView == nil) && (fullScreenCustomView == nil) { setupAnimatedIcon(animatedIcon)    }
+        if (progress == nil) && (animatedIcon == nil) && (staticImage != nil) && (customView == nil) && (fullScreenCustomView == nil) { setupStaticImage(staticImage)    }
+        if (progress == nil) && (animatedIcon == nil) && (staticImage == nil) && (customView != nil) && (fullScreenCustomView == nil) { setupCustomView(customView)    }
+        if (progress == nil) && (animatedIcon == nil) && (staticImage == nil) && (customView == nil) && (fullScreenCustomView != nil) { setupFullScreenCustomView(fullScreenCustomView)    }
 
         setupSize()
         setupPosition()
@@ -192,6 +240,7 @@ public class TFYProgressSwiftHUD: UIView {
         viewAnimatedIcon?.removeFromSuperview();    viewAnimatedIcon = nil
         viewAnimation?.removeFromSuperview();        viewAnimation = nil
         viewProgress?.removeFromSuperview();        viewProgress = nil
+        customView?.removeFromSuperview();            customView = nil
 
         labelStatus?.removeFromSuperview();            labelStatus = nil
         toolbarHUD?.removeFromSuperview();            toolbarHUD = nil
@@ -199,6 +248,10 @@ public class TFYProgressSwiftHUD: UIView {
 
         timer?.invalidate()
         timer = nil
+        
+        // 清理动画层
+        viewAnimation?.layer.sublayers?.forEach { $0.removeAllAnimations() }
+        viewAnimatedIcon?.layer.sublayers?.forEach { $0.removeAllAnimations() }
     }
     ///添加监听
     private func setupNotifications() {
@@ -214,10 +267,29 @@ public class TFYProgressSwiftHUD: UIView {
     private func setupBackground(_ interaction:Bool) {
         if viewBackground == nil {
             viewBackground = UIView(frame: self.bounds)
-            KeyWindows()?.addSubview(viewBackground!)
+            if let window = KeyWindows() {
+                window.addSubview(viewBackground!)
+            } else {
+                // 如果无法获取主窗口，尝试使用当前视图控制器的视图
+                if let topViewController = getTopViewController() {
+                    topViewController.view.addSubview(viewBackground!)
+                }
+            }
         }
         viewBackground?.backgroundColor = interaction ? .clear : colorBackground
         viewBackground?.isUserInteractionEnabled = (interaction == false)
+    }
+    
+    ///获取顶层视图控制器
+    private func getTopViewController() -> UIViewController? {
+        if let window = KeyWindows() {
+            var topViewController = window.rootViewController
+            while let presentedViewController = topViewController?.presentedViewController {
+                topViewController = presentedViewController
+            }
+            return topViewController
+        }
+        return nil
     }
     ///添加加载视图容器
     private func setupToolbar() {
@@ -248,6 +320,10 @@ public class TFYProgressSwiftHUD: UIView {
         labelStatus?.font = fontStatus
         labelStatus?.textColor = colorStatus
         labelStatus?.isHidden = (status == nil) ? true : false
+        labelStatus?.adjustsFontForContentSizeCategory = true
+        labelStatus?.isAccessibilityElement = true
+        labelStatus?.accessibilityLabel = status
+        labelStatus?.accessibilityTraits = .staticText
     }
     ///添加进度条容器
     private func setupProgress(_ progress: CGFloat?) {
@@ -255,6 +331,7 @@ public class TFYProgressSwiftHUD: UIView {
         viewAnimation?.removeFromSuperview()
         viewAnimatedIcon?.removeFromSuperview()
         staticImageView?.removeFromSuperview()
+        customView?.removeFromSuperview()
 
         if (viewProgress == nil) {
             viewProgress = ProgressView(colorProgress)
@@ -272,6 +349,7 @@ public class TFYProgressSwiftHUD: UIView {
         viewProgress?.removeFromSuperview()
         viewAnimatedIcon?.removeFromSuperview()
         staticImageView?.removeFromSuperview()
+        customView?.removeFromSuperview()
         
         if viewAnimation == nil {
             viewAnimation = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
@@ -306,6 +384,7 @@ public class TFYProgressSwiftHUD: UIView {
         viewProgress?.removeFromSuperview()
         viewAnimation?.removeFromSuperview()
         staticImageView?.removeFromSuperview()
+        customView?.removeFromSuperview()
         
         if viewAnimatedIcon == nil {
             viewAnimatedIcon = UIView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
@@ -329,6 +408,7 @@ public class TFYProgressSwiftHUD: UIView {
         viewProgress?.removeFromSuperview()
         viewAnimation?.removeFromSuperview()
         viewAnimatedIcon?.removeFromSuperview()
+        customView?.removeFromSuperview()
 
         if (staticImageView == nil) {
             staticImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
@@ -340,6 +420,54 @@ public class TFYProgressSwiftHUD: UIView {
 
         staticImageView?.image = staticImage
         staticImageView?.contentMode = .scaleAspectFit
+    }
+    ///添加自定义view容器
+    private func setupCustomView(_ customView: UIView?) {
+        viewProgress?.removeFromSuperview()
+        viewAnimation?.removeFromSuperview()
+        viewAnimatedIcon?.removeFromSuperview()
+        staticImageView?.removeFromSuperview()
+
+        if (self.customView == nil) {
+            self.customView = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        }
+
+        if (self.customView?.superview == nil) {
+            toolbarHUD?.addSubview(self.customView!)
+        }
+
+        // 如果传入了自定义view，则替换当前的customView
+        if let customView = customView {
+            self.customView?.removeFromSuperview()
+            self.customView = customView
+            toolbarHUD?.addSubview(self.customView!)
+        }
+    }
+    
+    ///添加全屏自定义view容器
+    private func setupFullScreenCustomView(_ customView: UIView?) {
+        viewProgress?.removeFromSuperview()
+        viewAnimation?.removeFromSuperview()
+        viewAnimatedIcon?.removeFromSuperview()
+        staticImageView?.removeFromSuperview()
+        self.customView?.removeFromSuperview()
+
+        // 如果传入了自定义view，则直接添加到背景view上
+        if let customView = customView {
+            self.customView = customView
+            viewBackground?.addSubview(self.customView!)
+            
+            // 设置全屏布局
+            self.customView?.translatesAutoresizingMaskIntoConstraints = false
+            if let backgroundView = viewBackground, let customView = self.customView {
+                NSLayoutConstraint.activate([
+                    customView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
+                    customView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
+                    customView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+                    customView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor)
+                ])
+            }
+        }
     }
     ///计算文本大小
     private func setupSize() {
@@ -362,6 +490,12 @@ public class TFYProgressSwiftHUD: UIView {
             labelStatus?.frame = rectLabel
         }
 
+        // iPad适配：增加最小尺寸
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            width = max(width, 200)
+            height = max(height, 200)
+        }
+
         toolbarHUD?.bounds = CGRect(x: 0, y: 0, width: width, height: height)
 
         let centerX = width/2
@@ -373,6 +507,7 @@ public class TFYProgressSwiftHUD: UIView {
         viewAnimation?.center = CGPoint(x: centerX, y: centerY)
         viewAnimatedIcon?.center = CGPoint(x: centerX, y: centerY)
         staticImageView?.center = CGPoint(x: centerX, y: centerY)
+        customView?.center = CGPoint(x: centerX, y: centerY)
     }
     
     ///背景容器监听
@@ -396,7 +531,7 @@ public class TFYProgressSwiftHUD: UIView {
             heightKeyboard = keyboardHeight()
         }
         
-        let mainWindow = UIApplication.shared.windows.first ?? UIWindow()
+        let mainWindow = KeyWindows()!
         let screen = mainWindow.bounds
         let center = CGPoint(x: screen.size.width/2, y: (screen.size.height - heightKeyboard)/2)
         
@@ -408,17 +543,22 @@ public class TFYProgressSwiftHUD: UIView {
     
     ///获取最合适的容器高度
     private func keyboardHeight() -> CGFloat {
+        // 优先使用通知中的键盘高度
         if let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow"),
            let inputSetContainerView = NSClassFromString("UIInputSetContainerView"),
            let inputSetHostView = NSClassFromString("UIInputSetHostView"){
             
-            for window in UIApplication.shared.windows {
-                if window.isKind(of: keyboardWindowClass) {
-                    for firstSubView in window.subviews {
-                        if firstSubView.isKind(of: inputSetContainerView) {
-                            for secondSubView in firstSubView.subviews {
-                                if secondSubView.isKind(of: inputSetHostView) {
-                                    return secondSubView.frame.size.height
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                // 获取窗口列表
+                let windows = scene.windows
+                for window in windows {
+                    if window.isKind(of: keyboardWindowClass) {
+                        for firstSubView in window.subviews {
+                            if firstSubView.isKind(of: inputSetContainerView) {
+                                for secondSubView in firstSubView.subviews {
+                                    if secondSubView.isKind(of: inputSetHostView) {
+                                        return secondSubView.frame.size.height
+                                    }
                                 }
                             }
                         }
@@ -426,31 +566,29 @@ public class TFYProgressSwiftHUD: UIView {
                 }
             }
         }
+        
+        // 备用方案：使用屏幕高度差值
+        if let window = KeyWindows() {
+            let screenHeight = UIScreen.main.bounds.height
+            let windowHeight = window.frame.height
+            let keyboardHeight = screenHeight - windowHeight
+            return keyboardHeight > 0 ? keyboardHeight : 0
+        }
+        
         return 0
     }
 }
 
 public func KeyWindows() -> UIWindow? {
     var keyWindow:UIWindow?
-    if #available(iOS 13.0, *) {
-        keyWindow = UIApplication.shared.connectedScenes
-            .map({$0 as? UIWindowScene})
-            .compactMap({$0})
-            .first?.windows.first
-    } else {
-        if let window = UIApplication.shared.delegate?.window as? UIWindow {
-            keyWindow = window
-        } else {
-            for window in UIApplication.shared.windows where window.windowLevel == .normal && !window.isHidden {
-                keyWindow = window
-            }
-            keyWindow = UIApplication.shared.windows.first
-        }
-    }
+    keyWindow = UIApplication.shared.connectedScenes
+        .map({$0 as? UIWindowScene})
+        .compactMap({$0})
+        .first?.windows.first
     return keyWindow
 }
 
-@available(iOS 13.0, *)
+@available(iOS 15.0, *)
 private class ProgressView:UIView {
     
     var color: UIColor = .systemBackground {
@@ -532,7 +670,7 @@ private class ProgressView:UIView {
 }
 
 
-@available(iOS 13.0, *)
+@available(iOS 15.0, *)
 public extension TFYProgressSwiftHUD {
     ///选择展示内部动画属于
     class var animationType:AnimationType {
@@ -648,6 +786,34 @@ public extension TFYProgressSwiftHUD {
     class func showProgress(_ status: String?, _ progress: CGFloat, interaction: Bool = false) {
         DispatchQueue.main.async {
             shared.setup(status: status, progress: progress, hide: false, interaction: interaction)
+        }
+    }
+    
+    /// 自定义view弹出视图
+    class func show(_ status: String? = nil, customView: UIView, interaction: Bool = true) {
+        DispatchQueue.main.async {
+            shared.setup(status: status, customView: customView, hide: false, interaction: interaction)
+        }
+    }
+    
+    /// 自定义view弹出视图（带自动隐藏）
+    class func show(_ status: String? = nil, customView: UIView, hide: Bool = true, interaction: Bool = true) {
+        DispatchQueue.main.async {
+            shared.setup(status: status, customView: customView, hide: hide, interaction: interaction)
+        }
+    }
+    
+    /// 全屏自定义view弹出视图
+    class func showFullScreen(_ customView: UIView, interaction: Bool = false) {
+        DispatchQueue.main.async {
+            shared.setup(fullScreenCustomView: customView, hide: false, interaction: interaction)
+        }
+    }
+    
+    /// 全屏自定义view弹出视图（带自动隐藏）
+    class func showFullScreen(_ customView: UIView, hide: Bool = true, interaction: Bool = false) {
+        DispatchQueue.main.async {
+            shared.setup(fullScreenCustomView: customView, hide: hide, interaction: interaction)
         }
     }
     

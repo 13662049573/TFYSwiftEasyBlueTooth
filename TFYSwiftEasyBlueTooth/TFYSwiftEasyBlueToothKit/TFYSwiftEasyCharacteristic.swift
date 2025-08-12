@@ -44,7 +44,10 @@ public class TFYSwiftEasyCharacteristic: NSObject {
     var peripheral:TFYSwiftEasyPeripheral?
     
     /// 特征上所有的特性
-    var properties:CBCharacteristicProperties { CBCharacteristicProperties(rawValue: (self.characteristic?.properties)!.rawValue) }
+    var properties:CBCharacteristicProperties { 
+        guard let characteristic = self.characteristic else { return CBCharacteristicProperties() }
+        return CBCharacteristicProperties(rawValue: characteristic.properties.rawValue) 
+    }
 
     var propertiesString:String {
         let temProperties:CBCharacteristicProperties = self.properties
@@ -125,7 +128,7 @@ public class TFYSwiftEasyCharacteristic: NSObject {
                 self.readOperateCallback!(self,self.value,error)
             }
             if self.characteristic?.value != nil {
-                self.addDataToArrayWithType(type: .OperationTypeNotify, data: self.value)
+                self.addDataToArrayWithType(type: .OperationTypeRead, data: self.value)
             }
         case .OperationTypeNotify:
             if self.notifyOperateCallback != nil {
@@ -149,7 +152,12 @@ public class TFYSwiftEasyCharacteristic: NSObject {
             let writeType:CBCharacteristicWriteType = (callback != nil) ? .withResponse:.withoutResponse
             TFYSwiftAsynce.async {
             } _: {
-                self.peripheral?.peripheral?.writeValue(data!, for: self.characteristic!, type: writeType)
+                guard let peripheral = self.peripheral?.peripheral, let characteristic = self.characteristic else {
+                    let error = NSError(domain: "设备或特征为空", code: -1, userInfo: nil)
+                    callback?(self, data, error)
+                    return
+                }
+                peripheral.writeValue(data!, for: characteristic, type: writeType)
             }
         }
     }
@@ -158,7 +166,12 @@ public class TFYSwiftEasyCharacteristic: NSObject {
         if callback != nil {
             self.readOperateCallback = callback
         }
-        self.peripheral?.peripheral?.readValue(for: self.characteristic!)
+        guard let peripheral = self.peripheral?.peripheral, let characteristic = self.characteristic else {
+            let error = NSError(domain: "设备或特征为空", code: -1, userInfo: nil)
+            callback?(self, nil, error)
+            return
+        }
+        peripheral.readValue(for: characteristic)
     }
     
     func notifyWithValue(value:Bool,callback:blueToothCharactersticOperateCallback?) {
@@ -170,6 +183,8 @@ public class TFYSwiftEasyCharacteristic: NSObject {
             self.peripheral?.peripheral?.setNotifyValue(value, for: self.characteristic!)
         } else {
             print("外围设备为空！")
+            let error = NSError(domain: "外围设备为空", code: -1, userInfo: nil)
+            callback?(self, nil, error)
         }
     }
     
@@ -209,6 +224,8 @@ public class TFYSwiftEasyCharacteristic: NSObject {
             self.peripheral?.peripheral?.discoverDescriptors(for: self.characteristic!)
         } else {
             print("注意：您尝试在无效特征上找到解密器！")
+            let error = NSError(domain: "特征无效", code: -1, userInfo: nil)
+            callback?([], error)
         }
     }
     
@@ -241,6 +258,17 @@ public class TFYSwiftEasyCharacteristic: NSObject {
         }
     }
     
-    
+    deinit {
+        self.characteristic = nil
+        self.service = nil
+        self.peripheral = nil
+        self.descriptorArray.removeAll()
+        self.readDataArray.removeAll()
+        self.writeDataArray.removeAll()
+        self.notifyDataArray.removeAll()
+        self.readCallbackArray.removeAll()
+        self.writeCallbackArray.removeAll()
+        self.notifyCallbackArray.removeAll()
+    }
 }
 

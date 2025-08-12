@@ -39,9 +39,8 @@ class TFYSwiftExampleScanNameController: UIViewController {
         
         view.addSubview(tableView)
         
-        data!.bluetoothStateChanged = { per , state in
-            TFYSwiftAsynce.async {
-            } _: {
+        data?.bluetoothStateChanged = { [weak self] per , state in
+            DispatchQueue.main.async {
                 switch state {
                 case .bluetoothStateSystemReadly:
                     TFYProgressSwiftHUD.showSucceed("蓝牙已准备就绪..")
@@ -51,7 +50,7 @@ class TFYSwiftExampleScanNameController: UIViewController {
                     break
                 case .bluetoothStateDeviceConnected:
                     TFYProgressSwiftHUD.showSucceed("设备连成功")
-                    self.tableView.reloadData()
+                    self?.tableView.reloadData()
                     break
                 default:
                     print("==============================:\(state)")
@@ -75,10 +74,14 @@ class TFYSwiftExampleScanNameController: UIViewController {
     var bleManager:TFYSwIFTEasyBlueToothManager? {
         didSet {
             let mange = bleManager
-            if mange != nil {
-                self.data = mange!
+            if let mange = mange {
+                self.data = mange
             }
         }
+    }
+    
+    deinit {
+        peripheral?.disconnectDevice()
     }
 }
 
@@ -103,76 +106,90 @@ extension TFYSwiftExampleScanNameController: UITableViewDelegate,UITableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let data:Data = "22HY63475E15".blueheadecimal()!
-        if indexPath.row == 0 {
+        guard let data = "22HY63475E15".blueheadecimal() else { return }
+        
+        switch indexPath.row {
+        case 0...4:
             self.writeDataWithPeripheral(data: data)
-        } else if indexPath.row == 1 {
-            self.writeDataWithPeripheral(data: data)
-        } else if indexPath.row == 2 {
-            self.writeDataWithPeripheral(data: data)
-        } else if indexPath.row == 3 {
-            self.writeDataWithPeripheral(data: data)
-        } else if indexPath.row == 4 {
-            self.writeDataWithPeripheral(data: data)
-        } else if indexPath.row == 5 {
-            self.writeDataWithPeripheral(data: data)
-        } else if indexPath.row == 6 {
+        case 5:
             TFYProgressSwiftHUD.show("提示...")
-            TFYSwiftAsynce.async {
-                self.data?.readValueWithPeripheral(peripheral: self.peripheral!, serviceUUID: UUID_SERVICE, readUUID: UUID_READ, callback: { value, error in
-                    TFYSwiftAsynce.async {
-                    } _: {
-                        if error != nil {
-                            TFYProgressSwiftHUD.showError(error?.localizedDescription)
-                        } else {
-                            let string:String = (value as! Data).bluehexString()
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard let peripheral = self?.peripheral else {
+                    DispatchQueue.main.async {
+                        TFYProgressSwiftHUD.showError("设备未连接")
+                    }
+                    return
+                }
+                self?.data?.readValueWithPeripheral(peripheral: peripheral, serviceUUID: UUID_SERVICE, readUUID: UUID_READ, callback: { value, error in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            TFYProgressSwiftHUD.showError(error.localizedDescription)
+                        } else if let value = value as? Data {
+                            let string:String = value.bluehexString()
                             TFYProgressSwiftHUD.showSucceed(string)
                         }
                     }
                 })
             }
-        } else if indexPath.row == 7 {
+        case 6:
             TFYProgressSwiftHUD.show("提示...")
-            TFYSwiftAsynce.async {
-                self.data?.notifyDataWithPeripheral(peripheral: self.peripheral!, serviceUUID: UUID_SERVICE, notifyUUID: UUID_NOTIFICATION, notifyValue: true, callback: { value, error in
-                    TFYSwiftAsynce.async {
-                    } _: {
-                        if error != nil {
-                            TFYProgressSwiftHUD.showError(error?.localizedDescription)
-                        } else {
-                            let string:String = (value as! Data).bluehexString()
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard let peripheral = self?.peripheral else {
+                    DispatchQueue.main.async {
+                        TFYProgressSwiftHUD.showError("设备未连接")
+                    }
+                    return
+                }
+                self?.data?.notifyDataWithPeripheral(peripheral: peripheral, serviceUUID: UUID_SERVICE, notifyUUID: UUID_NOTIFICATION, notifyValue: true, callback: { value, error in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            TFYProgressSwiftHUD.showError(error.localizedDescription)
+                        } else if let value = value as? Data {
+                            let string:String = value.bluehexString()
                             TFYProgressSwiftHUD.showSucceed(string)
                         }
                     }
                 })
             }
-        } else if indexPath.row == 8 {
+        case 7:
             TFYProgressSwiftHUD.show("提示...")
-            TFYSwiftAsynce.async {
-                self.data?.notifyDataWithPeripheral(peripheral: self.peripheral!, serviceUUID: UUID_SERVICE, notifyUUID: UUID_NOTIFICATION, notifyValue: false, callback: { value, error in
-                    TFYSwiftAsynce.async {
-                    } _: {
-                        if error != nil {
-                            TFYProgressSwiftHUD.showError(error?.localizedDescription)
-                        } else {
-                            let string:String = (value as! Data).bluehexString()
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard let peripheral = self?.peripheral else {
+                    DispatchQueue.main.async {
+                        TFYProgressSwiftHUD.showError("设备未连接")
+                    }
+                    return
+                }
+                self?.data?.notifyDataWithPeripheral(peripheral: peripheral, serviceUUID: UUID_SERVICE, notifyUUID: UUID_NOTIFICATION, notifyValue: false, callback: { value, error in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            TFYProgressSwiftHUD.showError(error.localizedDescription)
+                        } else if let value = value as? Data {
+                            let string:String = value.bluehexString()
                             TFYProgressSwiftHUD.showSucceed(string)
                         }
                     }
                 })
             }
+        default:
+            break
         }
     }
     
     func writeDataWithPeripheral(data:Data) {
-        TFYSwiftAsynce.async {
-            self.data?.writeDataWithPeripheral(peripheral: self.peripheral!, serviceUUID: UUID_SERVICE, writeUUID: UUID_WRITE, data: data, callback: { value, error in
-                TFYSwiftAsynce.async {
-                } _: {
-                    if error != nil {
-                        TFYProgressSwiftHUD.showError(error?.localizedDescription)
-                    } else {
-                        let string:String = (value as! Data).bluehexString()
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let peripheral = self?.peripheral else {
+                DispatchQueue.main.async {
+                    TFYProgressSwiftHUD.showError("设备未连接")
+                }
+                return
+            }
+            self?.data?.writeDataWithPeripheral(peripheral: peripheral, serviceUUID: UUID_SERVICE, writeUUID: UUID_WRITE, data: data, callback: { value, error in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        TFYProgressSwiftHUD.showError(error.localizedDescription)
+                    } else if let value = value as? Data {
+                        let string:String = value.bluehexString()
                         TFYProgressSwiftHUD.showSucceed(string)
                     }
                 }

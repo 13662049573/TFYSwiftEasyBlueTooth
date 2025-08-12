@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 ///动画1 设置
 func animationSystemActivityIndicator(_ view:UIView,color:UIColor) {
     let spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
