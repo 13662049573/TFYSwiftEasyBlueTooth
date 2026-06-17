@@ -140,7 +140,7 @@ manager.scanDeviceWithName(name: "MyDevice") { peripheral, error in
 }
 
 // 使用自定义规则扫描
-manager.scanDeviceWithRule({ peripheral in
+manager.scanDeviceWithRule(rule: { peripheral in
     // 自定义扫描规则
     return peripheral.name?.contains("BLE") ?? false
 }) { peripheral, error in
@@ -190,7 +190,7 @@ manager.scanAndConnectDeviceWithName(name: "MyDevice") { peripheral, error in
 ```swift
 // 发现服务
 peripheral.discoverAllDeviceServiceWithCallback { peripheral, services, error in
-    if let services = services {
+    if error == nil {
         services.forEach { service in
             print("📋 服务: \(service.service?.uuid.uuidString ?? "")")
         }
@@ -199,7 +199,7 @@ peripheral.discoverAllDeviceServiceWithCallback { peripheral, services, error in
 
 // 发现特征
 service.discoverCharacteristicWithCharacteristicUUIDs { characteristics, error in
-    if let characteristics = characteristics {
+    if error == nil {
         characteristics.forEach { characteristic in
             print("🔧 特征: \(characteristic.characteristic?.uuid.uuidString ?? "")")
         }
@@ -208,7 +208,7 @@ service.discoverCharacteristicWithCharacteristicUUIDs { characteristics, error i
 
 // 发现描述
 characteristic.discoverDescriptorWithCallback { descriptors, error in
-    if let descriptors = descriptors {
+    if error == nil {
         descriptors.forEach { descriptor in
             print("🏷️ 描述: \(descriptor.descroptor?.uuid.uuidString ?? "")")
         }
@@ -394,7 +394,7 @@ let strictData = "48:65-6C 6C6F".bluehexDataStrict()
 
 // 数据转十六进制字符串
 let data = "Hello".data(using: .utf8)!
-let hexString = data.bluehexString() // "48656C6C6F"
+let generatedHex = data.bluehexString() // "48656C6C6F"
 
 // 字节数组操作
 let bytes = data.toByteArray()
