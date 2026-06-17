@@ -28,7 +28,7 @@ class TFYSwiftTabbarController: UITabBarController {
     private func setupInitialViewController() {
         // 创建所有视图控制器，但延迟UI设置
         let homeVC = ViewController()
-        let discoverVC = TFYSwiftMineController()
+        let demoVC = TFYSwiftMineController()
         
         // 包装到导航控制器中
         let homeNav = createNavigationController(rootViewController: homeVC,
@@ -36,13 +36,13 @@ class TFYSwiftTabbarController: UITabBarController {
                                                   image: UIImage(named: "home"),
                                                   selectedImage: UIImage(named: "home_selected"))
         
-        let discoverNav = createNavigationController(rootViewController: discoverVC,
-                                                      title: "我的",
-                                                      image: UIImage(named: "me"),
-                                                      selectedImage: UIImage(named: "me_selected"))
+        let demoNav = createNavigationController(rootViewController: demoVC,
+                                                 title: "演示",
+                                                 image: UIImage(named: "message"),
+                                                 selectedImage: UIImage(named: "message_selected"))
         
         // 设置标签栏控制器的视图控制器数组
-        viewControllers = [homeNav, discoverNav]
+        viewControllers = [homeNav, demoNav]
     }
     
     

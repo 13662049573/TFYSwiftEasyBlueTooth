@@ -67,9 +67,30 @@ pod 'TFYSwiftEasyBlueToothKit'
 #### Swift Package Manager
 ```swift
 dependencies: [
-    .package(url: "https://github.com/your-repo/TFYSwiftEasyBlueTooth.git", from: "1.0.0")
+    .package(url: "https://github.com/13662049573/TFYSwiftEasyBlueTooth.git", from: "1.1.0")
 ]
 ```
+
+### 📱 示例 App 功能展示
+
+示例工程内置了完整的功能演示入口。运行 `TFYSwiftEasyBlueTooth` scheme 后，底部 Tab 包含：
+
+| Tab | 说明 |
+|-----|------|
+| 全部 | 原有设备列表与基础蓝牙流程 |
+| 演示 | 组件库所有核心能力的分组演示 |
+
+“演示”页当前按能力分为 5 组：
+
+| 分组 | 功能 |
+|------|------|
+| 基础配置 | 管理器配置、蓝牙状态检查 |
+| 扫描连接 | 扫描全部设备、按名称扫描、按规则扫描、扫描并连接设备、Identifier 连接、断开全部设备 |
+| 设备探索 | 读取 RSSI、发现服务、发现特征、发现描述 |
+| 数据通信 | 特征读写、开启通知、取消通知、描述读写 |
+| 工具能力 | Hex/Data 工具、RSSI 与地址工具、重试与异步工具 |
+
+如果你想快速熟悉组件能力，建议直接打开示例 App 的“演示”Tab，按分组逐项点击即可看到对应 API 的实际调用方式。
 
 ### 🔧 基本使用
 
@@ -129,7 +150,7 @@ manager.scanDeviceWithRule({ peripheral in
 }
 
 // 扫描所有设备
-manager.scanAllDeviceWithRule({ peripheral in
+manager.scanAllDeviceWithRule(rule: { peripheral in
     return peripheral.RSSI?.intValue ?? 0 > -80 // 信号强度大于-80
 }) { deviceArray, error in
     print("📱 找到 \(deviceArray.count) 个设备")
@@ -156,9 +177,46 @@ manager.connectDeviceWithIdentifier(identifier: "DEVICE-UUID") { peripheral, err
         print("✅ 通过ID连接成功")
     }
 }
+
+// 扫描并连接
+manager.scanAndConnectDeviceWithName(name: "MyDevice") { peripheral, error in
+    if let peripheral = peripheral, error == nil {
+        print("✅ 扫描并连接成功: \(peripheral.name ?? "")")
+    }
+}
 ```
 
-#### 4. 数据读写
+#### 4. 服务、特征和描述发现
+```swift
+// 发现服务
+peripheral.discoverAllDeviceServiceWithCallback { peripheral, services, error in
+    if let services = services {
+        services.forEach { service in
+            print("📋 服务: \(service.service?.uuid.uuidString ?? "")")
+        }
+    }
+}
+
+// 发现特征
+service.discoverCharacteristicWithCharacteristicUUIDs { characteristics, error in
+    if let characteristics = characteristics {
+        characteristics.forEach { characteristic in
+            print("🔧 特征: \(characteristic.characteristic?.uuid.uuidString ?? "")")
+        }
+    }
+}
+
+// 发现描述
+characteristic.discoverDescriptorWithCallback { descriptors, error in
+    if let descriptors = descriptors {
+        descriptors.forEach { descriptor in
+            print("🏷️ 描述: \(descriptor.descroptor?.uuid.uuidString ?? "")")
+        }
+    }
+}
+```
+
+#### 5. 数据读写
 ```swift
 // 写入数据
 let data = "Hello BLE".data(using: .utf8)!
@@ -188,7 +246,7 @@ manager.readValueWithPeripheral(
 }
 ```
 
-#### 5. 监听通知
+#### 6. 监听通知
 ```swift
 // 订阅通知
 manager.notifyDataWithPeripheral(
@@ -201,6 +259,61 @@ manager.notifyDataWithPeripheral(
         print("📡 收到通知: \(data.bluehexString())")
     }
 }
+
+// 取消通知
+manager.notifyDataWithPeripheral(
+    peripheral: peripheral,
+    serviceUUID: "1800",
+    notifyUUID: "2A00",
+    notifyValue: false
+) { _, error in
+    if error == nil {
+        print("✅ 已取消通知")
+    }
+}
+```
+
+#### 7. 描述读写
+```swift
+// 写入描述
+let descriptorData = "0100".bluehexDataStrict()!
+manager.writeDescriptorWithPeripheral(
+    peripheral: peripheral,
+    serviceUUID: "1800",
+    characterUUID: "2A00",
+    data: descriptorData
+) { value, error in
+    if error == nil {
+        print("✅ 描述写入成功")
+    }
+}
+
+// 读取描述
+manager.readDescriptorWithPeripheral(
+    peripheral: peripheral,
+    serviceUUID: "1800",
+    characterUUID: "2A00"
+) { value, error in
+    if error == nil {
+        print("📖 描述读取结果: \(String(describing: value))")
+    }
+}
+```
+
+#### 8. 断开连接与扫描控制
+```swift
+// 开始/停止扫描
+manager.startScanDevice()
+manager.stopScanDevice()
+
+// 断开指定设备
+manager.disconnectWithPeripheral(peripheral: peripheral)
+
+// 按 Identifier 断开
+manager.disconnectWithIdentifier(identifier: peripheral.identifier)
+
+// 断开全部设备
+manager.disconnectAllPeripheral()
 ```
 
 ## 🛠️ 高级功能
@@ -229,6 +342,23 @@ options.autoConnectAfterDisconnect = true // 自动重连
 manager.managerOptions = options
 ```
 
+### 一行扫描、连接、订阅和写入
+```swift
+let payload = "22 63 47 5E 15".bluehexDataStrict()
+
+manager.connectDeviceWithName(
+    name: "BLE-GUC2_9876",
+    serviceUUID: "FFE0",
+    notifyUUID: "FFE1",
+    writeUUID: "FFE2",
+    data: payload
+) { value, error in
+    if error == nil {
+        print("✅ 一行完成扫描、连接、通知和写入")
+    }
+}
+```
+
 ### 设备状态监控
 ```swift
 // 监听设备连接状态
@@ -246,7 +376,7 @@ peripheral.connectCallback = { peripheral, error, type in
 }
 
 // 读取RSSI信号强度
-peripheral.readRSSI { peripheral, RSSI, error in
+peripheral.readDeviceRSSIWithCallback { peripheral, RSSI, error in
     if error == nil {
         print("📶 信号强度: \(RSSI)")
     }
@@ -257,7 +387,10 @@ peripheral.readRSSI { peripheral, RSSI, error in
 ```swift
 // 字符串转十六进制数据
 let hexString = "48656C6C6F" // "Hello"
-let data = hexString.blueheadecimal()
+let hexData = hexString.blueheadecimal()
+
+// 严格解析十六进制，支持空格、冒号、短横线分隔，非法字符返回 nil
+let strictData = "48:65-6C 6C6F".bluehexDataStrict()
 
 // 数据转十六进制字符串
 let data = "Hello".data(using: .utf8)!
@@ -266,6 +399,49 @@ let hexString = data.bluehexString() // "48656C6C6F"
 // 字节数组操作
 let bytes = data.toByteArray()
 let newData = Data.fromByteArray(bytes)
+let reversedData = data.reversedBytes()
+let subData = data.subdata(from: 1, length: 2)
+```
+
+### 蓝牙辅助工具
+```swift
+let rssi = NSNumber(value: -62)
+
+// RSSI 工具
+let level = TFYBluetoothUtils.calculateSignalStrength(rssi: rssi)
+let distance = TFYBluetoothUtils.calculateDistance(rssi: rssi)
+
+// 地址与 Hex 工具
+let address = TFYBluetoothUtils.formatBluetoothAddress("aabbccddeeff")
+let hex = TFYBluetoothUtils.bytesToHexString([0x0A, 0xFF])
+let bytes = TFYBluetoothUtils.hexStringToBytes("0A:FF")
+
+// 状态工具
+let available = TFYBluetoothUtils.isBluetoothAvailable()
+let stateText = TFYBluetoothUtils.getBluetoothStateDescription()
+```
+
+### 重试与异步工具
+```swift
+let retryManager = TFYBluetoothRetryManager(maxRetryCount: 2, retryDelay: 0.5)
+var attempts = 0
+
+retryManager.executeWithRetry { (completion: @escaping (Result<String, Error>) -> Void) in
+    attempts += 1
+    if attempts < 2 {
+        completion(.failure(NSError(domain: "BLE", code: -1)))
+    } else {
+        completion(.success("第 \(attempts) 次成功"))
+    }
+} onSuccess: { value in
+    TFYSwiftAsynce.mainAsync {
+        print("✅ \(value)")
+    }
+} onFailure: { error in
+    TFYSwiftAsynce.mainAsync {
+        print("❌ \(error.localizedDescription)")
+    }
+}
 ```
 
 ## 📋 错误处理
@@ -350,8 +526,8 @@ TFYSwiftEasyBlueTooth 使用 [MIT 许可证](LICENSE)。
 如果你遇到任何问题或有建议，请：
 
 - 📧 发送邮件到: [your-email@example.com]
-- 🐛 提交 Issue: [GitHub Issues](https://github.com/your-repo/TFYSwiftEasyBlueTooth/issues)
-- 💬 加入讨论: [GitHub Discussions](https://github.com/your-repo/TFYSwiftEasyBlueTooth/discussions)
+- 🐛 提交 Issue: [GitHub Issues](https://github.com/13662049573/TFYSwiftEasyBlueTooth/issues)
+- 💬 加入讨论: [GitHub Discussions](https://github.com/13662049573/TFYSwiftEasyBlueTooth/discussions)
 
 ## ⭐ 如果这个项目对你有帮助，请给我们一个星标！
 
