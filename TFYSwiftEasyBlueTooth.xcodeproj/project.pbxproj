@@ -211,19 +211,9 @@
 		36AE25FB28598CE500927FDD /* tabbar */ = {
 			isa = PBXGroup;
 			children = (
-				36AE25FC28598CE500927FDD /* cell */,
 				36AE25FD28598CE500927FDD /* vc */,
-				36AE25FE28598CE500927FDD /* list */,
-				36AE25FF28598CE500927FDD /* view */,
 			);
 			path = tabbar;
-			sourceTree = "<group>";
-		};
-		36AE25FC28598CE500927FDD /* cell */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = cell;
 			sourceTree = "<group>";
 		};
 		36AE25FD28598CE500927FDD /* vc */ = {
@@ -234,27 +224,11 @@
 			path = vc;
 			sourceTree = "<group>";
 		};
-		36AE25FE28598CE500927FDD /* list */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = list;
-			sourceTree = "<group>";
-		};
-		36AE25FF28598CE500927FDD /* view */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = view;
-			sourceTree = "<group>";
-		};
 		36AE260528598CE500927FDD /* mine */ = {
 			isa = PBXGroup;
 			children = (
 				36AE260628598CE500927FDD /* cell */,
 				36AE260728598CE500927FDD /* vc */,
-				36AE260828598CE500927FDD /* list */,
-				36AE260928598CE500927FDD /* view */,
 			);
 			path = mine;
 			sourceTree = "<group>";
@@ -276,26 +250,11 @@
 			path = vc;
 			sourceTree = "<group>";
 		};
-		36AE260828598CE500927FDD /* list */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = list;
-			sourceTree = "<group>";
-		};
-		36AE260928598CE500927FDD /* view */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = view;
-			sourceTree = "<group>";
-		};
 		36AE260A28598CE500927FDD /* home */ = {
 			isa = PBXGroup;
 			children = (
 				36AE260B28598CE500927FDD /* cell */,
 				36AE260D28598CE500927FDD /* vc */,
-				36AE260F28598CE500927FDD /* list */,
 				36AE261028598CE500927FDD /* view */,
 			);
 			path = home;
@@ -319,13 +278,6 @@
 				36AE261F2859BC6900927FDD /* TFYSwiftDetailOperationController.swift */,
 			);
 			path = vc;
-			sourceTree = "<group>";
-		};
-		36AE260F28598CE500927FDD /* list */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = list;
 			sourceTree = "<group>";
 		};
 		36AE261028598CE500927FDD /* view */ = {

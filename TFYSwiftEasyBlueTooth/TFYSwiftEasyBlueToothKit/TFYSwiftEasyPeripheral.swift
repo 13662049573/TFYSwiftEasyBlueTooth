@@ -20,7 +20,7 @@ public enum deviceConnectType:Int {
 }
 
 public class TFYSwiftEasyPeripheral: NSObject {
-    
+
     private var connectTimeOut:Int? = 5 //连接设备超时时间
     private var connectOpertion:[String:Any]? = nil //需要连接设备所遵循的条件
     private var isReconnectDevice:Bool = true //用来处理发起连接时的参数问题。因为没调用连接一次，只能返回一次连接结果。
@@ -28,40 +28,40 @@ public class TFYSwiftEasyPeripheral: NSObject {
 
     //设备发现服务回调
     private var findServiceCallbackArray:[blueToothFindServiceCallback] = [blueToothFindServiceCallback]()
-    
+
     /// 连接设备回调
-    typealias blueToothConnectDeviceCallback = (_ perpheral:TFYSwiftEasyPeripheral?,_ error:Error?,_ type:deviceConnectType) -> Void
+    public typealias blueToothConnectDeviceCallback = (_ perpheral:TFYSwiftEasyPeripheral?,_ error:Error?,_ type:deviceConnectType) -> Void
     /// 读取RSSI回调，次回掉之后会一次返回结果
-    typealias blueToothReadRSSICallback = (_ peripheral:TFYSwiftEasyPeripheral,_ RSSI:NSNumber,_ error:Error?) -> Void
+    public typealias blueToothReadRSSICallback = (_ peripheral:TFYSwiftEasyPeripheral,_ RSSI:NSNumber,_ error:Error?) -> Void
     /// 寻找设备中的服务回掉
-    typealias blueToothFindServiceCallback = (_ peripheral:TFYSwiftEasyPeripheral,_ serviceArray:[TFYSwiftEasyService],_ error:Error?) -> Void
-    
+    public typealias blueToothFindServiceCallback = (_ peripheral:TFYSwiftEasyPeripheral,_ serviceArray:[TFYSwiftEasyService],_ error:Error?) -> Void
+
     /// 系统提供出来的当前设备
-    var peripheral:CBPeripheral?
-    
+    public var peripheral:CBPeripheral?
+
     /// 设备名称
-    var name: String? {
+    public var name: String? {
         guard let localName = self.peripheral?.name else {
             return "无名称"
         }
         return localName
     }
-    
+
     /// 设备的唯一ID
-    var identifier: UUID { 
+    public var identifier: UUID {
         guard let peripheral = self.peripheral else {
             return UUID()
         }
-        return peripheral.identifier 
+        return peripheral.identifier
     }
-    
-    var identifierString:String? { self.peripheral?.identifier.uuidString }
-    
+
+    public var identifierString:String? { self.peripheral?.identifier.uuidString }
+
     /// 设备当前的中心管理者
-    var centerManager:TFYSwiftEasyCenterManager?
-    
+    public var centerManager:TFYSwiftEasyCenterManager?
+
     /// 设备被扫描到的次数
-    var deviceScanCount:Int = 0 {
+    public var deviceScanCount:Int = 0 {
         didSet {
             TFYSwiftAsynce.async { [weak self] in
                 guard let self = self else { return }
@@ -70,70 +70,75 @@ public class TFYSwiftEasyPeripheral: NSObject {
             }
         }
     }
-    
+
     /// 设备的rssi
-    var RSSI:NSNumber?
-    
+    public var RSSI:NSNumber?
+
     /// 设备当前的广播数据
-    var advertisementData:[String:Any] = [String:Any]()
-    
+    public var advertisementData:[String:Any] = [String:Any]()
+
     /// 当前是否连接成功
-    var isConnected: Bool {
+    public var isConnected: Bool {
         guard let peripheral = self.peripheral else { return false }
         return peripheral.state == .connected
     }
-    
+
     /// 当前设备状态
-    var state:CBPeripheralState { 
+    public var state:CBPeripheralState {
         guard let peripheral = self.peripheral else { return .disconnected }
-        return peripheral.state 
+        return peripheral.state
     }
-    
+
     /// 当前设备的错误信息
-    var connectErrorDescription:Error?
-    
+    public var connectErrorDescription:Error?
+
     /// 设备中所有的服务
-    var serviceArray:[TFYSwiftEasyService] = [TFYSwiftEasyService]()
-    
+    public var serviceArray:[TFYSwiftEasyService] = [TFYSwiftEasyService]()
+
     /// 连接设备回调
-    var connectCallback:blueToothConnectDeviceCallback?
-    
+    public var connectCallback:blueToothConnectDeviceCallback?
+
     /// 连接超时定时器
     private var connectTimer:DispatchWorkItem?
-    
-    init(peripheral:CBPeripheral,manager:TFYSwiftEasyCenterManager) {
+
+    public init(peripheral:CBPeripheral,manager:TFYSwiftEasyCenterManager) {
         super.init()
-        
+
         self.centerManager = manager
         self.peripheral = peripheral
         peripheral.delegate = self
-        
+
         self.connectTimeOut = 5
         self.isReconnectDevice = true
-        
+
         self.perform(#selector(self.devicenotFoundTimeout), with: self, afterDelay: 5)
     }
-    
+
     /// 连接一个设备
-    func connectDeviceWithTimeOut(timeout:Int? = 5,options:[String:Any]? = nil,callback: blueToothConnectDeviceCallback?) {
+    public func connectDeviceWithTimeOut(timeout:Int? = 5,options:[String:Any]? = nil,callback: blueToothConnectDeviceCallback?) {
         if callback != nil {
             connectCallback = callback
         } else {
             print("您应该处理连接设备回调！")
         }
-        connectTimeOut = timeout
+        connectTimeOut = max(1, timeout ?? 5)
         connectOpertion = options
         isReconnectDevice = true
-        
+
         if self.peripheral?.state == .connected {
             print("注意！设备已正确连接！")
             self.disconnectDevice()
         }
-        print("\(String(format: "开始连接设备 - 时间长度%ld", timeout!))")
-        self.centerManager?.manager.connect(self.peripheral!, options: options)
-        
+        guard let peripheral = self.peripheral else {
+            let error:NSError = NSError(domain: "设备为空", code: bluetoothErrorState.bluetoothErrorStateNoConnect.rawValue, userInfo: nil)
+            callback?(self,error,.deviceConnectTypeFaild)
+            return
+        }
+        print("\(String(format: "开始连接设备 - 时间长度%ld", self.connectTimeOut ?? 5))")
+        self.centerManager?.manager.connect(peripheral, options: options)
+
         //如果设定的时间内系统没有回调连接的结果。直接返回错误信息
-        connectTimer = TFYSwiftAsynce.asyncDelay(Double(self.connectTimeOut!)) { [weak self] in
+        connectTimer = TFYSwiftAsynce.asyncDelay(Double(self.connectTimeOut ?? 5)) { [weak self] in
             guard let self = self else { return }
             if !self.isReconnectDevice {
                 return
@@ -146,38 +151,38 @@ public class TFYSwiftEasyPeripheral: NSObject {
             self.disconnectDevice()
         }
     }
-    
+
     /// 如果设备失去连接，调用此方法 再次连接设备(会保留上一次调用的参数)
-    func reconnectDevice() {
+    public func reconnectDevice() {
         self.isReconnectDevice = true
         self.connectDeviceWithTimeOut(timeout: connectTimeOut, options: connectOpertion, callback: connectCallback)
     }
-    
+
     /// 主动断开设备连接，（不会回调设备失去连接的方法）
-    func disconnectDevice() {
+    public func disconnectDevice() {
         // 取消连接超时定时器
         if let timer = connectTimer {
             TFYSwiftAsynce.cancelDelay(timer)
             connectTimer = nil
         }
-        
-        if self.state == .connected {
-            self.centerManager?.manager.cancelPeripheralConnection(self.peripheral!)
+
+        if self.state == .connected, let peripheral = self.peripheral {
+            self.centerManager?.manager.cancelPeripheralConnection(peripheral)
         }
         NSObject.cancelPreviousPerformRequests(withTarget: self.centerManager?.manager as Any, selector: #selector(self.centerManager?.manager.connect(_:options:)), object: self.connectOpertion)
     }
-    
+
     /// 重置设备被发现次数
-    func resetDeviceScanCount() {
+    public func resetDeviceScanCount() {
         self.deviceScanCount = -1
     }
-    
-    @objc func devicenotFoundTimeout() {
+
+    @objc public func devicenotFoundTimeout() {
         self.centerManager?.foundDeviceTimeout(perpheral: self)
     }
-   
+
     /// 读取设备的RSSI
-    func readDeviceRSSIWithCallback(callback:blueToothReadRSSICallback?) {
+    public func readDeviceRSSIWithCallback(callback:blueToothReadRSSICallback?) {
         if callback != nil {
             self.blueToothReadRSSICallback = callback
         } else {
@@ -185,23 +190,23 @@ public class TFYSwiftEasyPeripheral: NSObject {
         }
         self.peripheral?.readRSSI()
     }
-    
+
     /// 处理manager连接设备的结果。
-    func dealDeviceConnectWithError(error:Error?,type:deviceConnectType) {
+    public func dealDeviceConnectWithError(error:Error?,type:deviceConnectType) {
         // 取消连接超时定时器
         if let timer = connectTimer {
             TFYSwiftAsynce.cancelDelay(timer)
             connectTimer = nil
         }
-        
+
         self.isReconnectDevice = false
         if connectCallback != nil {
             connectCallback!(self,error,type)
         }
     }
-    
+
     /// 设备中所有的服务
-    func searchServiceWithService(service:CBService?) -> TFYSwiftEasyService? {
+    public func searchServiceWithService(service:CBService?) -> TFYSwiftEasyService? {
         guard let service = service else { return nil }
         var tempService:TFYSwiftEasyService?
         for (_,tempS) in self.serviceArray.enumerated() {
@@ -212,11 +217,11 @@ public class TFYSwiftEasyPeripheral: NSObject {
         }
         return tempService
     }
-    
+
     /// 查找设备中的所有服务
-    func discoverAllDeviceServiceWithCallback(uuidArray:[CBUUID] = [CBUUID](),callback:blueToothFindServiceCallback?) {
-        if callback != nil {
-            self.findServiceCallbackArray.append(callback!)
+    public func discoverAllDeviceServiceWithCallback(uuidArray:[CBUUID] = [CBUUID](),callback:blueToothFindServiceCallback?) {
+        if let callback = callback {
+            self.findServiceCallbackArray.append(callback)
         } else {
             print("你应该处理回调")
         }
@@ -240,11 +245,16 @@ public class TFYSwiftEasyPeripheral: NSObject {
                 self.findServiceCallbackArray.remove(at: 0)
             }
         } else {
-            print("\(String(format: "寻找设备上的服务 %@", self.peripheral!.identifier.uuidString))")
-            self.peripheral?.discoverServices(uuidArray)
+            guard let peripheral = self.peripheral else {
+                let error = NSError(domain: "设备为空", code: bluetoothErrorState.bluetoothErrorStateNoConnect.rawValue, userInfo: nil)
+                callback?(self,self.serviceArray,error)
+                return
+            }
+            print("\(String(format: "寻找设备上的服务 %@", peripheral.identifier.uuidString))")
+            peripheral.discoverServices(uuidArray)
         }
     }
-    
+
     deinit {
         disconnectDevice()
         self.peripheral = nil
@@ -256,7 +266,7 @@ public class TFYSwiftEasyPeripheral: NSObject {
 }
 
 extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
-    
+
     /// CBPeripheralDelegate Methods
     public func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
         print("uuidString:\(peripheral.identifier.uuidString)=设备的rssi读取:\(RSSI)==error:\(String(describing: error))")
@@ -265,7 +275,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
             self.blueToothReadRSSICallback!(self,RSSI,error)
         }
     }
-    
+
     /// 发现外设的服务
     ///
     /// - Parameters:
@@ -273,7 +283,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
     ///   - error: 错误
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         print("uuidString==:\(peripheral.identifier.uuidString)=设备发现服务%@ serviceArray:\(String(describing: peripheral.services))==error:\(String(describing: error))")
-        
+
         peripheral.services?.forEach({ tempService in
             let tempS:TFYSwiftEasyService? = self.searchServiceWithService(service: tempService)
             if tempS == nil {
@@ -287,11 +297,11 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
             self.findServiceCallbackArray.remove(at: 0)
         }
     }
-    
+
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverIncludedServicesFor service: CBService, error: Error?) {
         print("uuidString:\(peripheral.identifier.uuidString)=已连接上行的设备发现了服务%@ serviceArray:\(String(describing: peripheral.services))=error:\(String(describing: error))")
     }
-    
+
     /// 发现外设的特征,订阅特征(读、写等)
     ///
     /// - Parameters:
@@ -307,7 +317,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
             print("你应该解决这个错误")
         }
     }
-    
+
     /// 收到外设发送内容
    ///
    /// - Parameters:
@@ -326,7 +336,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
             }
         }
     }
-    
+
     //当特征注册通知后 会回调此方法
     public func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         print("监听 特征的回调:==uuid:\(characteristic.uuid)=error:\(String(describing: error))")
@@ -334,7 +344,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
         let character:TFYSwiftEasyCharacteristic? = easyService?.searchCharacteristciWithCharacteristic(characteristic: characteristic)
         character?.dealOperationCharacterWithType(type: .OperationTypeNotify, error: error)
     }
-    
+
     // 当写入某个特征值后 外设代理执行的回调
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         print("写 特征的回调==uuid:\(characteristic.uuid)==error:\(String(describing: error))")
@@ -344,7 +354,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
             character?.dealOperationCharacterWithType(type: .OperationTypeWrite, error: error)
         }
     }
-    
+
     // descriptor
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverDescriptorsFor characteristic: CBCharacteristic, error: Error?) {
         print("发现特征上的描述==uuid:\(characteristic.uuid)=descriptors:\(String(describing: characteristic.descriptors))=error:\(String(describing: error))")
@@ -354,7 +364,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
             character?.dealDiscoverDescriptorWithError(error: error)
         }
     }
-    
+
     //获取到Descriptors的值
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor descriptor: CBDescriptor, error: Error?) {
         print("获取到Descriptors的值=uuid:\(descriptor.uuid)==value:\(String(describing: descriptor.value))")
@@ -370,7 +380,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
             })
         })
     }
-    
+
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
         print("写 特征上的描述的回调=: \(descriptor.uuid)==error:\(String(describing: error))")
         self.serviceArray.forEach({ tempS in
@@ -383,7 +393,7 @@ extension TFYSwiftEasyPeripheral:CBPeripheralDelegate {
             })
         })
     }
-    
+
     public func peripheralDidUpdateName(_ peripheral: CBPeripheral) {
         print("peripheralDidUpdateName=:\(String(describing: peripheral.name))")
     }

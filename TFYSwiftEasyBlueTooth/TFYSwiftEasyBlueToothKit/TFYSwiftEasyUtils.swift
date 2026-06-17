@@ -10,7 +10,7 @@ import UIKit
 import Accelerate
 import CoreBluetooth
 
-extension String {
+public extension String {
     /// 将16进制的字符串转换成NSData
     func blueheadecimal() -> Data? {
         var data = Data(capacity: self.count/2)
@@ -25,12 +25,34 @@ extension String {
         }
         return data
     }
-    
+
+    /// 将标准十六进制字符串转换成 Data，支持空格、冒号、短横线分隔，遇到非法字符返回 nil。
+    func bluehexDataStrict() -> Data? {
+        let cleanHex = self.replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: ":", with: "")
+            .replacingOccurrences(of: "-", with: "")
+        guard !cleanHex.isEmpty, cleanHex.count % 2 == 0 else {
+            return nil
+        }
+        var data = Data(capacity: cleanHex.count / 2)
+        var index = cleanHex.startIndex
+        while index < cleanHex.endIndex {
+            let nextIndex = cleanHex.index(index, offsetBy: 2)
+            let byteString = String(cleanHex[index..<nextIndex])
+            guard let byte = UInt8(byteString, radix: 16) else {
+                return nil
+            }
+            data.append(byte)
+            index = nextIndex
+        }
+        return data
+    }
+
     /// 验证UUID格式
     func isValidUUID() -> Bool {
         return UUID(uuidString: self) != nil
     }
-    
+
     /// 验证蓝牙地址格式
     func isValidBluetoothAddress() -> Bool {
         let pattern = "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"
@@ -40,27 +62,27 @@ extension String {
     }
 }
 
-extension Data {
+public extension Data {
     ///Data转16进制字符串
     func bluehexString() -> String {
         return map { String(format: "%02x", $0) }.joined(separator: "").uppercased()
     }
-    
+
     /// 转换为字节数组
     func toByteArray() -> [UInt8] {
         return Array(self)
     }
-    
+
     /// 从字节数组创建Data
     static func fromByteArray(_ bytes: [UInt8]) -> Data {
         return Data(bytes)
     }
-    
+
     /// 反转字节顺序
     func reversedBytes() -> Data {
         return Data(self.reversed())
     }
-    
+
     /// 获取指定范围的字节
     func subdata(from start: Int, length: Int) -> Data? {
         guard start >= 0 && length > 0 && start + length <= self.count else {
@@ -70,8 +92,8 @@ extension Data {
     }
 }
 
-extension UIWindow {
-    
+public extension UIWindow {
+
     static var bluekeyWindow: UIWindow? {
         if #available(iOS 15.0, *) {
             // iOS 15+ 使用新的API
@@ -79,11 +101,13 @@ extension UIWindow {
                 return nil
             }
             return windowScene.windows.first { $0.isKeyWindow }
-        } 
+        } else {
+            return UIApplication.shared.windows.first { $0.isKeyWindow }
+        }
     }
 }
 
-extension UIImage {
+public extension UIImage {
     static func blueimageWithColor(color: UIColor) -> UIImage? {
         let rect = CGRect.init(x: 0, y: 0, width: 2, height: 2)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
@@ -100,7 +124,7 @@ extension UIImage {
 
 /// 蓝牙工具类
 public class TFYBluetoothUtils {
-    
+
     /// 计算RSSI信号强度等级
     /// - Parameter rssi: RSSI值
     /// - Returns: 信号强度等级 (0-4)
@@ -118,7 +142,7 @@ public class TFYBluetoothUtils {
             return 0 // 很弱
         }
     }
-    
+
     /// 格式化蓝牙地址
     /// - Parameter address: 原始地址字符串
     /// - Returns: 格式化后的地址
@@ -126,9 +150,9 @@ public class TFYBluetoothUtils {
         let cleaned = address.replacingOccurrences(of: ":", with: "")
             .replacingOccurrences(of: "-", with: "")
             .uppercased()
-        
+
         guard cleaned.count == 12 else { return address }
-        
+
         var formatted = ""
         for (index, char) in cleaned.enumerated() {
             if index > 0 && index % 2 == 0 {
@@ -149,7 +173,7 @@ public class TFYBluetoothUtils {
         if rssiValue == 0 {
             return -1.0
         }
-        
+
         let ratio = rssiValue * 1.0 / txPower
         if ratio < 1.0 {
             return pow(ratio, 10.0)
@@ -157,14 +181,14 @@ public class TFYBluetoothUtils {
             return 0.89976 * pow(ratio, 7.7095) + 0.111
         }
     }
-    
+
     /// 字节数组转十六进制字符串
     /// - Parameter bytes: 字节数组
     /// - Returns: 十六进制字符串
     public static func bytesToHexString(_ bytes: [UInt8]) -> String {
         return bytes.map { String(format: "%02X", $0) }.joined(separator: "")
     }
-    
+
     /// 十六进制字符串转字节数组
     /// - Parameter hexString: 十六进制字符串
     /// - Returns: 字节数组
@@ -172,28 +196,28 @@ public class TFYBluetoothUtils {
         let cleanHex = hexString.replacingOccurrences(of: " ", with: "")
             .replacingOccurrences(of: ":", with: "")
             .replacingOccurrences(of: "-", with: "")
-        
+
         guard cleanHex.count % 2 == 0 else { return nil }
-        
+
         var bytes: [UInt8] = []
         for i in stride(from: 0, to: cleanHex.count, by: 2) {
             let startIndex = cleanHex.index(cleanHex.startIndex, offsetBy: i)
             let endIndex = cleanHex.index(startIndex, offsetBy: 2)
             let byteString = String(cleanHex[startIndex..<endIndex])
-            
+
             guard let byte = UInt8(byteString, radix: 16) else { return nil }
             bytes.append(byte)
         }
         return bytes
     }
-    
+
     /// 检查蓝牙是否可用
     /// - Returns: 蓝牙是否可用
     public static func isBluetoothAvailable() -> Bool {
         let manager = CBCentralManager()
         return manager.state == .poweredOn
     }
-    
+
     /// 获取蓝牙状态描述
     /// - Returns: 状态描述
     public static func getBluetoothStateDescription() -> String {
@@ -219,17 +243,17 @@ public class TFYBluetoothUtils {
 
 /// 蓝牙连接重试管理器
 public class TFYBluetoothRetryManager {
-    
+
     private var retryCount: Int = 0
     private let maxRetryCount: Int
     private let retryDelay: TimeInterval
     private var retryTimer: DispatchWorkItem?
-    
+
     public init(maxRetryCount: Int = 3, retryDelay: TimeInterval = 2.0) {
         self.maxRetryCount = maxRetryCount
         self.retryDelay = retryDelay
     }
-    
+
     /// 执行带重试的操作
     /// - Parameters:
     ///   - operation: 要执行的操作
@@ -243,7 +267,7 @@ public class TFYBluetoothRetryManager {
         retryCount = 0
         executeOperation(operation: operation, onSuccess: onSuccess, onFailure: onFailure)
     }
-    
+
     private func executeOperation<T>(
         operation: @escaping (@escaping (Result<T, Error>) -> Void) -> Void,
         onSuccess: @escaping (T) -> Void,
@@ -264,7 +288,7 @@ public class TFYBluetoothRetryManager {
             }
         }
     }
-    
+
     private func handleFailure<T>(
         error: Error,
         operation: @escaping (@escaping (Result<T, Error>) -> Void) -> Void,
@@ -272,7 +296,7 @@ public class TFYBluetoothRetryManager {
         onFailure: @escaping (Error) -> Void
     ) {
         retryCount += 1
-        
+
         if retryCount <= maxRetryCount {
             print("蓝牙操作失败，第\(retryCount)次重试...")
             retryTimer = TFYSwiftAsynce.asyncDelay(retryDelay) { [weak self] in
@@ -284,14 +308,14 @@ public class TFYBluetoothRetryManager {
             onFailure(error)
         }
     }
-    
+
     /// 取消重试
     public func cancelRetry() {
         retryTimer?.cancel()
         retryTimer = nil
         retryCount = 0
     }
-    
+
     deinit {
         cancelRetry()
     }
