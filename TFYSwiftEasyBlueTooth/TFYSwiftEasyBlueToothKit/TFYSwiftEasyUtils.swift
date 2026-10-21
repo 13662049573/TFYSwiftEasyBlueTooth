@@ -95,15 +95,10 @@ public extension Data {
 public extension UIWindow {
 
     static var bluekeyWindow: UIWindow? {
-        if #available(iOS 15.0, *) {
-            // iOS 15+ 使用新的API
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
-                return nil
-            }
-            return windowScene.windows.first { $0.isKeyWindow }
-        } else {
-            return UIApplication.shared.windows.first { $0.isKeyWindow }
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return nil
         }
+        return windowScene.windows.first { $0.isKeyWindow }
     }
 }
 
@@ -211,9 +206,43 @@ public class TFYBluetoothUtils {
         return bytes
     }
 
-    /// 检查蓝牙是否可用
+    /// 当前应用的蓝牙授权状态（`CBManager.authorization`）
+    public static func bluetoothAuthorization() -> CBManagerAuthorization {
+        CBCentralManager.authorization
+    }
+
+    /// 是否已获得蓝牙使用授权
+    public static func isBluetoothAuthorized() -> Bool {
+        CBCentralManager.authorization == .allowedAlways
+    }
+
+    /// 蓝牙授权状态描述
+    public static func authorizationStatusDescription() -> String {
+        switch CBCentralManager.authorization {
+        case .notDetermined:
+            return "未决定"
+        case .restricted:
+            return "受限"
+        case .denied:
+            return "已拒绝"
+        case .allowedAlways:
+            return "已授权"
+        @unknown default:
+            return "未知"
+        }
+    }
+
+    /// 检查当前设备是否支持指定的中心管理器特性（`CBCentralManager.supports`）
+    public static func centralManagerSupports(_ feature: CBCentralManager.Feature) -> Bool {
+        CBCentralManager.supports(feature)
+    }
+
+    /// 检查蓝牙是否可用（已授权且适配器为开启状态）
     /// - Returns: 蓝牙是否可用
     public static func isBluetoothAvailable() -> Bool {
+        guard isBluetoothAuthorized() else {
+            return false
+        }
         let manager = CBCentralManager()
         return manager.state == .poweredOn
     }
@@ -221,6 +250,9 @@ public class TFYBluetoothUtils {
     /// 获取蓝牙状态描述
     /// - Returns: 状态描述
     public static func getBluetoothStateDescription() -> String {
+        if !isBluetoothAuthorized() {
+            return "未授权（\(authorizationStatusDescription())）"
+        }
         let manager = CBCentralManager()
         switch manager.state {
         case .unknown:

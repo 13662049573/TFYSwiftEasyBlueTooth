@@ -5,12 +5,12 @@
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](http://mit-license.org)
 [![CocoaPods](https://img.shields.io/cocoapods/v/TFYSwiftEasyBlueToothKit.svg)](https://cocoapods.org/pods/TFYSwiftEasyBlueToothKit)
 [![Swift](https://img.shields.io/badge/Swift-5.0+-orange.svg)](https://swift.org)
-[![iOS](https://img.shields.io/badge/iOS-15.0+-blue.svg)](https://developer.apple.com/ios/)
+[![iOS](https://img.shields.io/badge/iOS-16.0+-blue.svg)](https://developer.apple.com/ios/)
 
 <div align="center">
   <img src="https://img.shields.io/badge/Bluetooth-BLE-0082FC?style=for-the-badge&logo=bluetooth&logoColor=white" alt="Bluetooth BLE">
   <img src="https://img.shields.io/badge/Swift-5.0+-FA7343?style=for-the-badge&logo=swift&logoColor=white" alt="Swift 5.0+">
-  <img src="https://img.shields.io/badge/iOS-15.0+-000000?style=for-the-badge&logo=ios&logoColor=white" alt="iOS 15.0+">
+  <img src="https://img.shields.io/badge/iOS-16.0+-000000?style=for-the-badge&logo=ios&logoColor=white" alt="iOS 16.0+">
 </div>
 
 ## 📖 简介
@@ -67,7 +67,7 @@ pod 'TFYSwiftEasyBlueToothKit'
 #### Swift Package Manager
 ```swift
 dependencies: [
-    .package(url: "https://github.com/13662049573/TFYSwiftEasyBlueTooth.git", from: "1.1.0")
+    .package(url: "https://github.com/13662049573/TFYSwiftEasyBlueTooth.git", from: "1.2.0")
 ]
 ```
 
@@ -337,6 +337,7 @@ let options = TFYSwiftEasyManagerOptions(
 options.scanTimeOut = 30 // 30秒
 options.connectTimeOut = 10 // 10秒
 options.autoConnectAfterDisconnect = true // 自动重连
+options.requestsDeviceAccessForMedia = true // iOS 16+ 媒体蓝牙设备访问
 
 // 应用配置
 manager.managerOptions = options
@@ -487,10 +488,10 @@ default:
 
 ## 📱 系统要求
 
-- **iOS**: 15.0+
+- **iOS**: 16.0+
 - **Swift**: 5.0+
-- **Xcode**: 12.0+
-- **部署目标**: iOS 15.0+
+- **Xcode**: 14.0+
+- **部署目标**: iOS 16.0+
 
 ## 🔒 权限配置
 
