@@ -17,10 +17,10 @@ public class TFYSwiftEasyManagerOptions: NSObject {
     
     /// CBCentralManagerOptionShowPowerAlertKey  默认为NO，系统当蓝牙关闭时是否弹出一个警告框
     /// CBCentralManagerOptionRestoreIdentifierKey 系统被杀死，重新恢复centermanager的ID
-    /// CBCentralManagerOptionDeviceAccessForMediaKey（iOS 16+）为媒体类蓝牙设备申请访问权限
+    /// CBCentralManagerOptionDeviceAccessForMedia（iOS 16+）为媒体类蓝牙设备申请访问权限
     public var managerDictionary:[String:Any]? = [CBCentralManagerOptionShowPowerAlertKey:true]
 
-    /// iOS 16+：为媒体播放场景申请蓝牙设备访问（写入 `CBCentralManagerOptionDeviceAccessForMediaKey`）
+    /// iOS 16+：为媒体播放场景申请蓝牙设备访问（写入 `CBCentralManagerOptionDeviceAccessForMedia`）
     public var requestsDeviceAccessForMedia: Bool = false
     
     /// CBCentralManagerScanOptionAllowDuplicatesKey  默认为NO，过滤功能是否启用，每次寻找都会合并相同的peripheral。如果设备YES的话每次都能接受到来自peripherals的广播包数据。
@@ -109,7 +109,7 @@ public class TFYSwiftEasyManagerOptions: NSObject {
     public func resolvedManagerDictionary() -> [String: Any]? {
         var options = managerDictionary ?? [CBCentralManagerOptionShowPowerAlertKey: true]
         if requestsDeviceAccessForMedia {
-            options[CBCentralManagerOptionDeviceAccessForMediaKey] = true
+            options[CBCentralManagerOptionDeviceAccessForMedia] = true
         }
         return options
     }

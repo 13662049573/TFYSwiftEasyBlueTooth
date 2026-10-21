@@ -67,7 +67,7 @@ pod 'TFYSwiftEasyBlueToothKit'
 #### Swift Package Manager
 ```swift
 dependencies: [
-    .package(url: "https://github.com/13662049573/TFYSwiftEasyBlueTooth.git", from: "1.2.0")
+    .package(url: "https://github.com/13662049573/TFYSwiftEasyBlueTooth.git", from: "1.2.1")
 ]
 ```
 
