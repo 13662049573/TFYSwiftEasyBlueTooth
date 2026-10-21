@@ -65,7 +65,10 @@ public enum bluetoothErrorState:Int {
 public class TFYSwIFTEasyBlueToothManager: NSObject {
 
     private lazy var centerManager: TFYSwiftEasyCenterManager = {
-        let manage:TFYSwiftEasyCenterManager = TFYSwiftEasyCenterManager(queue: self.managerOptions?.managerQueue, options: self.managerOptions?.managerDictionary)
+        let manage:TFYSwiftEasyCenterManager = TFYSwiftEasyCenterManager(
+            queue: self.managerOptions?.managerQueue,
+            options: self.managerOptions?.resolvedManagerDictionary()
+        )
         manage.stateChangeCallback = { [weak self] manager,state in
             if state == .poweredOn {
                 self?.bluetoothState = .bluetoothStateSystemReadly
